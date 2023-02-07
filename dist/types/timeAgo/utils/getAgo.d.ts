@@ -1,5 +1,5 @@
 import { TimeagoFormats, TimeagoReadyOpts } from '../types/types';
-declare type R = {
+type R = {
     number: number;
     key: keyof TimeagoFormats;
 };

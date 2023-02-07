@@ -1,26 +1,16 @@
 'use strict';
 
-var _objectSpread = require("@babel/runtime/helpers/objectSpread2");
-
-var _slicedToArray = require("@babel/runtime/helpers/slicedToArray");
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
+var _objectSpread = require("@babel/runtime/helpers/objectSpread2").default;
+var _slicedToArray = require("@babel/runtime/helpers/slicedToArray").default;
 var tnConsoler = require('tn-consoler');
-
 var tnValidate = require('tn-validate');
-
 var tnNumpad = require('tn-numpad');
-
 var formatFunction = function formatFunction(opts) {
   var formats = defaultFormats[opts.variant];
   Object.entries(opts.formats).forEach(function (_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
-        key = _ref2[0],
-        value = _ref2[1];
-
+      key = _ref2[0],
+      value = _ref2[1];
     var input = value;
     formats[key] = tnValidate.isArray(input) ? input : [input, input];
   });
@@ -29,7 +19,6 @@ var formatFunction = function formatFunction(opts) {
     return "".concat(opts.prefix).concat(num).concat(formats[key][num <= 1 ? 0 : 1]).concat(opts.postfix);
   };
 };
-
 var defaultFormats = {
   minimal: {
     yr: ['y', 'y'],
@@ -74,15 +63,14 @@ var conv = {
   day: day,
   mo: mo
 };
-
 var getAgo = function getAgo(agoms, opts) {
   var yr = opts.yr,
-      mo = opts.mo,
-      day = opts.day,
-      hr = opts.hr,
-      min = opts.min,
-      sec = opts.sec,
-      msec = opts.msec;
+    mo = opts.mo,
+    day = opts.day,
+    hr = opts.hr,
+    min = opts.min,
+    sec = opts.sec,
+    msec = opts.msec;
   var lastkey = 'yr';
   if (mo) lastkey = 'mo';
   if (day) lastkey = 'day';
@@ -90,7 +78,6 @@ var getAgo = function getAgo(agoms, opts) {
   if (min) lastkey = 'min';
   if (sec) lastkey = 'sec';
   if (msec) lastkey = 'msec';
-
   if (agoms >= conv.yr && yr || lastkey === 'yr') {
     return {
       number: agoms / conv.yr,
@@ -126,7 +113,6 @@ var getAgo = function getAgo(agoms, opts) {
     key: 'msec'
   };
 };
-
 var defaultOpts = {
   decimal: 0,
   variant: 'verbose',
@@ -141,7 +127,6 @@ var defaultOpts = {
   sec: true,
   msec: false
 };
-
 var parameters = function parameters(date, useropts) {
   var agoms = new Date().getTime() - date.getTime();
   return {
@@ -149,24 +134,18 @@ var parameters = function parameters(date, useropts) {
     opts: _objectSpread(_objectSpread({}, defaultOpts), useropts || {})
   };
 };
-
 function timeAgo(date, useropts) {
   var _parameters = parameters(date, useropts),
-      agoms = _parameters.agoms,
-      opts = _parameters.opts;
-
+    agoms = _parameters.agoms,
+    opts = _parameters.opts;
   var formatted = formatFunction(opts);
-
   var _getAgo = getAgo(agoms, opts),
-      key = _getAgo.key,
-      number = _getAgo.number;
-
+    key = _getAgo.key,
+    number = _getAgo.number;
   return formatted(number, opts.decimal, key);
 }
-
 var chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 var twins = 'd|D|m|M|h|H|i|s|S'.split('|');
-
 function getFormatarr(formatstr) {
   var formatarr = [];
   var isplain = false;
@@ -178,7 +157,6 @@ function getFormatarr(formatstr) {
       isplain = true;
       return;
     }
-
     if (char === '}') {
       formatarr.push({
         iskey: false,
@@ -188,13 +166,11 @@ function getFormatarr(formatstr) {
       isplain = false;
       return;
     }
-
     if (isplain) {
       plaintext += char;
       return;
-    } // key collector
-
-
+    }
+    // key collector
     if (twinable) {
       if (chars.includes(char) && char === twinable) {
         formatarr.push({
@@ -236,20 +212,16 @@ function getFormatarr(formatstr) {
         });
       }
     }
-
     twinable = false;
   });
-
   if (twinable) {
     formatarr.push({
       iskey: true,
       char: twinable
     });
   }
-
   return formatarr;
 }
-
 function amPm(dateobj) {
   var capital = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var hours = dateobj.getHours();
@@ -258,64 +230,50 @@ function amPm(dateobj) {
   if (capital) ampm = ampm.toUpperCase();
   return ampm;
 }
-
 function dateMinSecMs(dateobj, type) {
   var zeropad = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   var dmsms;
   if (type === 'date') dmsms = dateobj.getDate();else if (type === 'min') dmsms = dateobj.getMinutes();else if (type === 'sec') dmsms = dateobj.getSeconds();else dmsms = dateobj.getMilliseconds();
-
   if (zeropad) {
     var padcount = type === 'ms' ? 3 : 2;
     dmsms = tnNumpad.numpad(dmsms, padcount);
   }
-
   return dmsms;
 }
-
 var short$1 = 'Sun|Mon|Tue|Wed|Thu|Fri|Sat'.split('|');
 var long$1 = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|');
-
 function dayName(dateobj) {
   var full = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var dayno = dateobj.getDay();
   if (full) return long$1[dayno];else return short$1[dayno];
 }
-
 function hour(dateobj, format24, zeropad) {
   var hours = dateobj.getHours();
-
   if (!format24) {
     if (hours > 12) hours = hours - 12;
     if (hours === 0) hours = 12;
   }
-
   if (zeropad) hours = tnNumpad.numpad(hours, 2);
   return hours;
 }
-
 var short = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'.split('|');
 var long = 'January|February|March|April|May|June|July|August|September|October|November|December'.split('|'); // prettier-ignore
-
 function month(dateobj, name, longer) {
   var monthno = dateobj.getMonth();
-
   if (name) {
     if (longer) return long[monthno];
     return short[monthno];
   }
-
   ++monthno;
   if (longer) return tnNumpad.numpad(monthno, 2);
   return monthno;
 }
-
 function year(dateobj) {
   var full = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var fullyear = dateobj.getFullYear();
   if (!full) fullyear = fullyear.toString().substr(2, 2);
   return fullyear;
 }
-
 function converters(dateobj) {
   return {
     d: function d() {
@@ -386,7 +344,6 @@ function converters(dateobj) {
     }
   };
 }
-
 function keyConverter(dateobj, formatarr) {
   var string = '';
   var convlist = converters(dateobj);
@@ -395,52 +352,42 @@ function keyConverter(dateobj, formatarr) {
       string += charinfo.char;
       return;
     }
-
     string += convlist[charinfo.char]().toString();
   });
   return string;
 }
-
 var timeFormat = function timeFormat(date) {
   var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'dd-mm-Y';
   var formatarr = getFormatarr(format);
   return keyConverter(date, formatarr);
 };
-
 var timeIsFuture = function timeIsFuture(date) {
   return date.getTime() > new Date().getTime();
 };
-
 var timeIsPast = function timeIsPast(date) {
   return date.getTime() < new Date().getTime();
 };
-
 var timeIsToday = function timeIsToday(date) {
   var given = new Date(date);
   var today = new Date();
   return given.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
 };
-
 var timeRound = function timeRound(date) {
   var given = new Date(date);
   return new Date(given.setHours(0, 0, 0, 0));
 };
-
 var timeShift = function timeShift(date, shiftby) {
   var amount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'day';
   var timestamp = date.getTime() + shiftby * conv[amount];
   return new Date(timestamp);
 };
-
 var time = function time(d) {
   var date = d ? new Date(d) : new Date();
   var invalid = isNaN(date.getTime());
   if (invalid) date = new Date();
-
   if (process.env.NODE_ENV === 'development') {
     if (invalid) tnConsoler.consoler.log('{bgred+white:ERROR} {yellow+b:time}{white+b:()} Date is invalid');
   }
-
   return {
     getDate: function getDate() {
       return date;
@@ -468,5 +415,4 @@ var time = function time(d) {
     }
   };
 };
-
 exports.time = time;

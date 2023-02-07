@@ -1,6 +1,6 @@
 import { TimeagoOpts } from '../timeAgo/types/types';
 import { TimeClause } from './TimeClause';
-export declare type Time = (d?: string | number | Date) => {
+export type Time = (d?: string | number | Date) => {
     getDate(): Date;
     ago(opts?: TimeagoOpts): string;
     shift(shiftby: number, amount?: TimeClause): Date;
