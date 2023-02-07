@@ -1,0 +1,42 @@
+{
+  "name": "tn-time",
+  "version": "5.2.0",
+  "description": " ",
+  "keywords": [],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "Serve": "parcel .dev/parcel/index.html --out-dir .dev/parcel/dist --cache-dir .dev/parcel/cache --open",
+    "Build": "rimraf dist && rollup -c",
+    "Publish": "rimraf .dev/parcel/dist & rimraf .dev/parcel/cache && npm run Build && yarn publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JawadAhbab/tn-time.git"
+  },
+  "author": "Turnova",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.19.0",
+    "tn-consoler": "^2.2.0",
+    "tn-mergeobj": "^1.1.3",
+    "tn-numpad": "^2.1.2",
+    "tn-validate": "^3.1.5"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.19.1",
+    "@babel/plugin-transform-runtime": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@types/node": "^18.7.20",
+    "rollup": "^2.79.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.34.0",
+    "tn-typescript": "^1.2.3",
+    "typescript": "^4.8.3"
+  }
+}
