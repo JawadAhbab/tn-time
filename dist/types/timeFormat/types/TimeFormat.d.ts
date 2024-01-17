@@ -1,4 +1,4 @@
-export type TimeFormat = (date: Date, format?: string) => string;
+export type TimeFormat = (date: Date, format?: string | null) => string;
 export type FormatArr = {
     iskey: boolean;
     char: string;
