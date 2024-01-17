@@ -354,7 +354,7 @@ function keyConverter(dateobj, formatarr) {
   });
   return string;
 }
-var timeFormat = function timeFormat(date, format) {
+var timeFormat = function timeFormat(date, format, opts) {
   var formatarr = getFormatarr(format !== null && format !== void 0 ? format : 'dd-mm-Y');
   return keyConverter(date, formatarr);
 };

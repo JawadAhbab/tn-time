@@ -1,4 +1,5 @@
 import { TimeagoOpts } from '../timeAgo/types/types'
+import { TimeFormatOpts } from '../timeFormat/types/TimeFormat'
 import { TimeClause } from './TimeClause'
 
 export type Time = (d?: string | number | Date) => {
@@ -39,6 +40,7 @@ export type Time = (d?: string | number | Date) => {
      * | `a`  | Meridiem                  | am, pm             |
      * | `A`  | Capitalized Meridiem      | AM, PM             |
      */
-    format?: string
+    format?: string | null,
+    opts?: TimeFormatOpts
   ): string
 }
