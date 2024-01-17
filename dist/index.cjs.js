@@ -359,9 +359,12 @@ function keyConverter(dateobj, formatarr) {
 var timeFormat = function timeFormat(date, format) {
   var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var zone = opts.zone;
+  var locale = date;
+  if (zone) locale = new Date(new Date(date).toLocaleString(undefined, {
+    timeZone: zone
+  }));
   var formatarr = getFormatarr(format !== null && format !== void 0 ? format : 'dd-mm-Y');
-  console.log(zone);
-  return keyConverter(date, formatarr);
+  return keyConverter(locale, formatarr);
 };
 var timeIsFuture = function timeIsFuture(date) {
   return date.getTime() > new Date().getTime();
