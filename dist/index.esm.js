@@ -354,8 +354,11 @@ function keyConverter(dateobj, formatarr) {
   });
   return string;
 }
-var timeFormat = function timeFormat(date, format, opts) {
+var timeFormat = function timeFormat(date, format) {
+  var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var zone = opts.zone;
   var formatarr = getFormatarr(format !== null && format !== void 0 ? format : 'dd-mm-Y');
+  console.log(zone);
   return keyConverter(date, formatarr);
 };
 var timeIsFuture = function timeIsFuture(date) {
@@ -389,8 +392,8 @@ var time = function time(d) {
     getDate: function getDate() {
       return date;
     },
-    format: function format(_format) {
-      return timeFormat(date, _format);
+    format: function format(_format, opts) {
+      return timeFormat(date, _format, opts);
     },
     ago: function ago(opts) {
       return timeAgo(date, opts);

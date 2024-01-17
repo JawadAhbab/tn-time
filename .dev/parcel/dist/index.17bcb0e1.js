@@ -576,9 +576,9 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"dnXN7":[function(require,module,exports) {
 var _index = require("../src/index");
-console.log((0, _index.time)().format("dd MM Y"));
-console.log((0, _index.time)("11 dec 2020").ago());
-console.log((0, _index.time)().shift(100));
+console.log((0, _index.time)().format("hh:ii:ss A", {
+    zone: "Asia/Riyadh"
+}));
 
 },{"../src/index":"h7u1C"}],"h7u1C":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -599,7 +599,7 @@ const time = (d)=>{
     if (invalid) (0, _tnConsoler.consoler).log("{bgred+white:ERROR} {yellow+b:time}{white+b:()} Date is invalid");
     return {
         getDate: ()=>date,
-        format: (format)=>(0, _timeFormat.timeFormat)(date, format),
+        format: (format, opts)=>(0, _timeFormat.timeFormat)(date, format, opts),
         ago: (opts)=>(0, _timeAgo.timeAgo)(date, opts),
         shift: (shiftby, amount)=>(0, _timeShift.timeShift)(date, shiftby, amount),
         round: ()=>(0, _timeRound.timeRound)(date),
@@ -1592,8 +1592,10 @@ var _formatarr = require("./formatarr/formatarr");
 var _formatarrDefault = parcelHelpers.interopDefault(_formatarr);
 var _keyConverter = require("./keyConverter/keyConverter");
 var _keyConverterDefault = parcelHelpers.interopDefault(_keyConverter);
-const timeFormat = (date, format, opts)=>{
+const timeFormat = (date, format, opts = {})=>{
+    const { zone } = opts;
     const formatarr = (0, _formatarrDefault.default)(format ?? "dd-mm-Y");
+    console.log(zone);
     return (0, _keyConverterDefault.default)(date, formatarr);
 };
 

@@ -8,7 +8,7 @@ import { timeRound } from './timeutils/timeRound'
 import { timeShift } from './timeutils/timeShift'
 import { Time } from './types/Time'
 
-export const time: Time = (d) => {
+export const time: Time = d => {
   let date = d ? new Date(d) : new Date()
   const invalid = isNaN(date.getTime())
   if (invalid) date = new Date()
@@ -18,8 +18,8 @@ export const time: Time = (d) => {
 
   return {
     getDate: () => date,
-    format: (format) => timeFormat(date, format),
-    ago: (opts) => timeAgo(date, opts),
+    format: (format, opts) => timeFormat(date, format, opts),
+    ago: opts => timeAgo(date, opts),
     shift: (shiftby, amount) => timeShift(date, shiftby, amount),
     round: () => timeRound(date),
     isToday: () => timeIsToday(date),
