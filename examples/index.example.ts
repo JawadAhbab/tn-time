@@ -1,3 +1,3 @@
 import { time } from '../src/index'
 
-console.log(time().format('hh:ii:ss A', { zone: 'Asia/Riyadh' }))
+console.log(time().format('dd.mm.Y hh:ii:ss:SS A', { zone: 'Asia/Riyadh' }))

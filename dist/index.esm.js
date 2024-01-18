@@ -358,9 +358,18 @@ var timeFormat = function timeFormat(date, format) {
   var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var zone = opts.zone;
   var locale = date;
-  if (zone) locale = new Date(new Date(date).toLocaleString(undefined, {
-    timeZone: zone
-  }));
+  if (zone) {
+    locale = new Date(new Date(date).toLocaleString('en-US', {
+      timeZone: zone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      fractionalSecondDigits: 3
+    }));
+  }
   var formatarr = getFormatarr(format !== null && format !== void 0 ? format : 'dd-mm-Y');
   return keyConverter(locale, formatarr);
 };
