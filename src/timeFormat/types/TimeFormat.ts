@@ -37,7 +37,7 @@ export type Charkeylist =
   | 'a'
   | 'A'
 
-type TimeZone =
+export type TimeZone =
   | 'Africa/Abidjan'
   | 'Africa/Nairobi'
   | 'Africa/Algiers'
