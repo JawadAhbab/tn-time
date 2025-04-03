@@ -44,4 +44,13 @@ const defaultFormats: ObjectInUnion<TimeagoVariant, TimeagoReadyFormats> = {
     sec: [' second', ' seconds'],
     msec: [' millisecond', ' milliseconds'],
   },
+  bangla: {
+    yr: [' বছর', ' বছর'],
+    mo: [' মাস', ' মাস'],
+    day: [' দিন', ' দিন'],
+    hr: [' ঘণ্টা', ' ঘণ্টা'],
+    min: [' মিনিট', ' মিনিট'],
+    sec: [' সেকেন্ড', ' সেকেন্ড'],
+    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড'],
+  },
 }

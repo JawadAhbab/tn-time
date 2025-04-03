@@ -1,6 +1,6 @@
 {
   "name": "tn-time",
-  "version": "5.3.2",
+  "version": "5.4.0",
   "description": " ",
   "keywords": [],
   "main": "dist/index.cjs.js",
@@ -18,23 +18,23 @@
   "author": "Turnova",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.20.13",
+    "@babel/runtime": "^7.27.0",
     "tn-consoler": "^2.2.0",
     "tn-mergeobj": "^2.0.0",
     "tn-numpad": "^2.1.2",
-    "tn-validate": "^4.0.0"
+    "tn-validate": "^4.1.4"
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.12",
-    "@babel/plugin-transform-runtime": "^7.19.6",
-    "@babel/preset-env": "^7.20.2",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@types/node": "^18.11.19",
-    "rollup": "^3.14.0",
-    "rollup-plugin-typescript2": "^0.34.1",
-    "tn-typescript": "^1.2.3",
-    "typescript": "^4.9.5"
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
+    "@babel/plugin-transform-runtime": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@types/node": "^22.14.0",
+    "rollup": "^4.39.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "tn-typescript": "^2.1.4",
+    "typescript": "^5.8.2"
   }
 }

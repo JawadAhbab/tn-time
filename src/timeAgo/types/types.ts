@@ -11,7 +11,7 @@ export interface TimeagoOpts extends Optional<ObjectInUnion<TimeClause, boolean>
   postfix?: string
 }
 
-export type TimeagoVariant = 'verbose' | 'short' | 'minimal'
+export type TimeagoVariant = 'verbose' | 'short' | 'minimal' | 'bangla'
 export type TimeagoFormats = ObjectInUnion<TimeClause, FormatInput>
 export type TimeagoReadyFormats = ObjectInUnion<TimeClause, [string, string]>
 export type TimeagoReadyOpts = OptionLessShallow<TimeagoOpts>
