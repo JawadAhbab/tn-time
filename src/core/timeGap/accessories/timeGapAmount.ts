@@ -1,11 +1,11 @@
 import { conv } from '../../../accessories/conv'
-import { TimeagoFormats, TimeagoReadyOpts } from './TimeGap'
-type R = { number: number; key: keyof TimeagoFormats }
+import { TimegapFormats, TimegapReadyOpts } from './TimeGap'
+type R = { number: number; key: keyof TimegapFormats }
 
-export const timeGapAmount = (agoms: number, opts: TimeagoReadyOpts): R => {
+export const timeGapAmount = (agoms: number, opts: TimegapReadyOpts): R => {
   const { yr, mo, day, hr, min, sec, msec } = opts
 
-  let lastkey: keyof TimeagoFormats = 'yr'
+  let lastkey: keyof TimegapFormats = 'yr'
   if (mo) lastkey = 'mo'
   if (day) lastkey = 'day'
   if (hr) lastkey = 'hr'

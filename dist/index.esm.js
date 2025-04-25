@@ -343,6 +343,10 @@ function timeGap(gaptype, date, useropts) {
     key,
     number
   } = timeGapAmount(gap, opts);
+  console.log({
+    key,
+    number
+  });
   const formater = timeGapFormater(opts);
   return formater(number, opts.decimal, key);
 }

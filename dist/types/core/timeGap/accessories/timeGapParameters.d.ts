@@ -1,10 +1,10 @@
-import { TimeagoOpts } from './TimeGap';
-export declare const timeGapParameters: (date: Date, useropts?: TimeagoOpts) => {
+import { TimegapOpts } from './TimeGap';
+export declare const timeGapParameters: (date: Date, useropts?: TimegapOpts) => {
     gapms: number;
     opts: {
         decimal: number;
-        variant: import("./TimeGap").TimeagoVariant;
-        formats: import("tn-typescript").Optional<import("./TimeGap").TimeagoFormats>;
+        variant: import("./TimeGap").TimegapVariant;
+        formats: import("tn-typescript").Optional<import("./TimeGap").TimegapFormats>;
         prefix: string;
         postfix: string;
         yr: import("tn-typescript").Optional<boolean>;

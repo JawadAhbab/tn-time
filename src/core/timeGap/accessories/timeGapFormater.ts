@@ -1,13 +1,13 @@
 import { ObjectInUnion } from 'tn-typescript'
 import { isArray } from 'tn-validate'
-import { FormatInput, TimeagoFormats, TimeagoReadyFormats, TimeagoReadyOpts, TimeagoVariant } from './TimeGap' // prettier-ignore
-type R = (number: number, decimal: number, key: keyof TimeagoFormats) => string
+import { TimegapFormatInput, TimegapFormats, TimegapReadyFormats, TimegapReadyOpts, TimegapVariant } from './TimeGap' // prettier-ignore
+type R = (number: number, decimal: number, key: keyof TimegapFormats) => string
 
-export const timeGapFormater = (opts: TimeagoReadyOpts): R => {
+export const timeGapFormater = (opts: TimegapReadyOpts): R => {
   const formats = defaultFormats[opts.variant]
   Object.entries(opts.formats).forEach(([key, value]) => {
-    const input = value as FormatInput
-    formats[key as keyof TimeagoFormats] = isArray(input) ? input : [input, input]
+    const input = value as TimegapFormatInput
+    formats[key as keyof TimegapFormats] = isArray(input) ? input : [input, input]
   })
 
   return (number, decimal, key) => {
@@ -16,7 +16,7 @@ export const timeGapFormater = (opts: TimeagoReadyOpts): R => {
   }
 }
 
-const defaultFormats: ObjectInUnion<TimeagoVariant, TimeagoReadyFormats> = {
+const defaultFormats: ObjectInUnion<TimegapVariant, TimegapReadyFormats> = {
   minimal: {
     yr: ['y', 'y'],
     mo: ['mo', 'mo'],

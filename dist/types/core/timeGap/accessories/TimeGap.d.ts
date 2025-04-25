@@ -1,14 +1,14 @@
 import { ObjectInUnion, Optional, OptionLessShallow } from 'tn-typescript';
 import { TimeClause } from '../../../accessories/TimeClause';
-export type FormatInput = string | [Singular: string, Plural: string];
-export interface TimeagoOpts extends Optional<ObjectInUnion<TimeClause, boolean>> {
+export type TimegapVariant = 'verbose' | 'short' | 'minimal' | 'bangla';
+export type TimegapFormats = ObjectInUnion<TimeClause, TimegapFormatInput>;
+export type TimegapReadyFormats = ObjectInUnion<TimeClause, [string, string]>;
+export type TimegapReadyOpts = OptionLessShallow<TimegapOpts>;
+export type TimegapFormatInput = string | [Singular: string, Plural: string];
+export interface TimegapOpts extends Optional<ObjectInUnion<TimeClause, boolean>> {
     decimal?: number;
-    variant?: TimeagoVariant;
-    formats?: Optional<TimeagoFormats>;
+    variant?: TimegapVariant;
+    formats?: Optional<TimegapFormats>;
     prefix?: string;
     postfix?: string;
 }
-export type TimeagoVariant = 'verbose' | 'short' | 'minimal' | 'bangla';
-export type TimeagoFormats = ObjectInUnion<TimeClause, FormatInput>;
-export type TimeagoReadyFormats = ObjectInUnion<TimeClause, [string, string]>;
-export type TimeagoReadyOpts = OptionLessShallow<TimeagoOpts>;

@@ -1,4 +1,4 @@
-import { TimeagoOpts } from './accessories/TimeGap';
+import { TimegapOpts } from './accessories/TimeGap';
 type GapType = 'GAP' | 'AGO' | 'REMAIN';
-export declare function timeGap(gaptype: GapType, date: Date, useropts?: TimeagoOpts): string;
+export declare function timeGap(gaptype: GapType, date: Date, useropts?: TimegapOpts): string;
 export {};
