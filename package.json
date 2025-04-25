@@ -7,9 +7,9 @@
   "module": "dist/index.esm.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "Serve": "parcel .dev/parcel/index.html --dist-dir .dev/parcel/dist --cache-dir .dev/parcel/cache --open",
+    "Serve": "nodemon ./examples/index.example.ts",
     "Build": "rimraf dist && rollup -c",
-    "Publish": "rimraf .dev/parcel/dist & rimraf .dev/parcel/cache && npm run Build && yarn publish"
+    "Publish": "npm run Build && yarn publish"
   },
   "repository": {
     "type": "git",
