@@ -1,13 +1,20 @@
 import { ObjectInUnion } from 'tn-typescript'
 import { isArray } from 'tn-validate'
 import { TimegapFormatInput, TimegapFormats, TimegapReadyFormats, TimegapReadyOpts, TimegapVariant } from './TimeGap'; // prettier-ignore
-type Props = { number: number; clause: keyof TimegapFormats; opts: TimegapReadyOpts }
+import { TimeGapAmount } from './timeGapAmounts'
+type Props = { amounts: TimeGapAmount[]; opts: TimegapReadyOpts }
 
-export const timeGapFormater = ({ number, clause, opts }: Props): string => {
+export const timeGapFormater = ({ amounts, opts }: Props): string => {
   const formats = getFormats(opts)
-  const num = parseFloat(number.toFixed(opts.decimal))
-  return `${opts.prefix}${num}${formats[clause][num <= 1 ? 0 : 1]}${opts.postfix}`
+  const astrs: string[] = []
+  console.log(amounts)
+  // const num = parseFloat(number.toFixed(opts.decimal))
+  // return `${opts.prefix}${num}${formats[clause][num <= 1 ? 0 : 1]}${opts.postfix}`
+
+  return `${opts.prefix}${astrs.join(opts.clauseJoin)}${opts.postfix}`
 }
+
+const parseAmountString = () => {}
 
 const getFormats = (opts: TimegapReadyOpts) => {
   const formats = defaultFormats[opts.variant]

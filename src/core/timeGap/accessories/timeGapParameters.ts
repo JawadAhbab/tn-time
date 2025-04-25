@@ -8,6 +8,7 @@ export const timeGapParameters = (date: Date, useropts?: TimegapOpts) => {
 const defaultOpts: TimegapReadyOpts = {
   decimal: 0,
   maxClause: 1,
+  clauseJoin: ' ',
   variant: 'verbose',
   formats: {},
   prefix: '',

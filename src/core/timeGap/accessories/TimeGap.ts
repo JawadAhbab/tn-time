@@ -8,6 +8,7 @@ export type TimegapFormatInput = string | [Singular: string, Plural: string]
 export interface TimegapOpts {
   decimal?: number
   maxClause?: number
+  clauseJoin?: string
   clauses?: TimeClause[]
   variant?: TimegapVariant
   formats?: Optional<TimegapFormats>

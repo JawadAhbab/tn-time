@@ -3,6 +3,7 @@ import { timeIsFuture } from '../timeIsFuture'
 import { timeIsPast } from '../timeIsPast'
 import { TimegapOpts } from './accessories/TimeGap'
 import { timeGapAmounts } from './accessories/timeGapAmounts'
+import { timeGapFormater } from './accessories/timeGapFormater'
 import { timeGapParameters } from './accessories/timeGapParameters'
 type GapType = 'GAP' | 'AGO' | 'REMAIN'
 
@@ -12,8 +13,6 @@ export function timeGap(gaptype: GapType, date: Date, useropts?: TimegapOpts) {
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0
   else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0
 
-  const amount = timeGapAmounts(gap, timeClauseSort(opts.clauses), opts.maxClause)
-  console.log(JSON.stringify(amount, null, 2))
-  return ''
-  // return timeGapFormater({ opts, number, clause })
+  const amounts = timeGapAmounts(gap, timeClauseSort(opts.clauses), opts.maxClause)
+  return timeGapFormater({ opts, amounts })
 }

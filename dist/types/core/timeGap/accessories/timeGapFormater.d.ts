@@ -1,8 +1,8 @@
-import { TimegapFormats, TimegapReadyOpts } from './TimeGap';
+import { TimegapReadyOpts } from './TimeGap';
+import { TimeGapAmount } from './timeGapAmounts';
 type Props = {
-    number: number;
-    clause: keyof TimegapFormats;
+    amounts: TimeGapAmount[];
     opts: TimegapReadyOpts;
 };
-export declare const timeGapFormater: ({ number, clause, opts }: Props) => string;
+export declare const timeGapFormater: ({ amounts, opts }: Props) => string;
 export {};

@@ -2,6 +2,7 @@
 
 var tnConsoler = require('tn-consoler');
 var tnNumpad = require('tn-numpad');
+var tnValidate = require('tn-validate');
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 const twins = 'd|D|m|M|h|H|i|s|S'.split('|');
 const timeFormatArr = formatstr => {
@@ -251,6 +252,65 @@ const timeGapAmounts = function (ms, clauses, maxClause) {
     }
   }
 };
+const timeGapFormater = _ref => {
+  let {
+    amounts,
+    opts
+  } = _ref;
+  getFormats(opts);
+  const astrs = [];
+  console.log(amounts);
+  // const num = parseFloat(number.toFixed(opts.decimal))
+  // return `${opts.prefix}${num}${formats[clause][num <= 1 ? 0 : 1]}${opts.postfix}`
+  return `${opts.prefix}${astrs.join(opts.clauseJoin)}${opts.postfix}`;
+};
+const getFormats = opts => {
+  const formats = defaultFormats[opts.variant];
+  Object.entries(opts.formats).forEach(_ref2 => {
+    let [key, value] = _ref2;
+    const input = value;
+    formats[key] = tnValidate.isArray(input) ? input : [input, input];
+  });
+  return formats;
+};
+const defaultFormats = {
+  minimal: {
+    yr: ['y', 'y'],
+    mo: ['mo', 'mo'],
+    day: ['d', 'd'],
+    hr: ['h', 'h'],
+    min: ['m', 'm'],
+    sec: ['s', 's'],
+    msec: ['ms', 'ms']
+  },
+  short: {
+    yr: [' yr', ' yrs'],
+    mo: [' mo', ' mos'],
+    day: [' day', ' days'],
+    hr: [' hr', ' hrs'],
+    min: [' min', ' mins'],
+    sec: [' sec', ' secs'],
+    msec: [' msec', ' msecs']
+  },
+  verbose: {
+    yr: [' year', ' years'],
+    mo: [' month', ' months'],
+    day: [' day', ' days'],
+    hr: [' hour', ' hours'],
+    min: [' minute', ' minutes'],
+    sec: [' second', ' seconds'],
+    msec: [' millisecond', ' milliseconds']
+  },
+  bangla: {
+    yr: [' বছর', ' বছর'],
+    mo: [' মাস', ' মাস'],
+    day: [' দিন', ' দিন'],
+    hr: [' ঘণ্টা', ' ঘণ্টা'],
+    min: [' মিনিট', ' মিনিট'],
+    sec: [' সেকেন্ড', ' সেকেন্ড'],
+    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড']
+  }
+};
 const timeGapParameters = (date, useropts) => {
   const gapms = Math.abs(new Date().getTime() - date.getTime());
   return {
@@ -264,6 +324,7 @@ const timeGapParameters = (date, useropts) => {
 const defaultOpts = {
   decimal: 0,
   maxClause: 1,
+  clauseJoin: ' ',
   variant: 'verbose',
   formats: {},
   prefix: '',
@@ -277,10 +338,11 @@ function timeGap(gaptype, date, useropts) {
   } = timeGapParameters(date, useropts);
   let gap = gapms;
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0;else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0;
-  const amount = timeGapAmounts(gap, timeClauseSort(opts.clauses), opts.maxClause);
-  console.log(JSON.stringify(amount, null, 2));
-  return '';
-  // return timeGapFormater({ opts, number, clause })
+  const amounts = timeGapAmounts(gap, timeClauseSort(opts.clauses), opts.maxClause);
+  return timeGapFormater({
+    opts,
+    amounts
+  });
 }
 const timeRound = date => {
   const given = new Date(date);
