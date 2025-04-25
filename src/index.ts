@@ -1,12 +1,12 @@
 import { consoler } from 'tn-consoler'
-import { timeAgo } from './timeAgo/timeAgo'
-import { timeFormat } from './timeFormat/timeFormat'
-import { timeIsFuture } from './timeutils/timeIsFuture'
-import { timeIsPast } from './timeutils/timeIsPast'
-import { timeIsToday } from './timeutils/timeIsToday'
-import { timeRound } from './timeutils/timeRound'
-import { timeShift } from './timeutils/timeShift'
-import { Time } from './types/Time'
+import { Time } from './accessories/Time'
+import { timeAgo } from './core/timeAgo/timeAgo'
+import { timeFormat } from './core/timeFormat/timeFormat'
+import { timeIsFuture } from './core/timeIsFuture'
+import { timeIsPast } from './core/timeIsPast'
+import { timeIsToday } from './core/timeIsToday'
+import { timeRound } from './core/timeRound'
+import { timeShift } from './core/timeShift'
 
 export const time: Time = d => {
   let date = d ? new Date(d) : new Date()

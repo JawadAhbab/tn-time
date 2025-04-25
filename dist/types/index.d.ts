@@ -1,2 +1,2 @@
-import { Time } from './types/Time';
+import { Time } from './accessories/Time';
 export declare const time: Time;

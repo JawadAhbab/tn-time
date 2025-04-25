@@ -1,7 +1,7 @@
 import { consoler } from 'tn-consoler';
 import { isArray } from 'tn-validate';
 import { numpad } from 'tn-numpad';
-const formatFunction = opts => {
+const timeGapFormater = opts => {
   const formats = defaultFormats[opts.variant];
   Object.entries(opts.formats).forEach(_ref => {
     let [key, value] = _ref;
@@ -66,7 +66,7 @@ const conv = {
   day,
   mo
 };
-const getAgo = (agoms, opts) => {
+const timeGapAmount = (agoms, opts) => {
   const {
     yr,
     mo,
@@ -118,6 +118,16 @@ const getAgo = (agoms, opts) => {
     key: 'msec'
   };
 };
+const timeGapParameters = (date, useropts) => {
+  const agoms = new Date().getTime() - date.getTime();
+  return {
+    agoms: agoms < 0 ? 0 : agoms,
+    opts: {
+      ...defaultOpts,
+      ...(useropts || {})
+    }
+  };
+};
 const defaultOpts = {
   decimal: 0,
   variant: 'verbose',
@@ -132,31 +142,21 @@ const defaultOpts = {
   sec: true,
   msec: false
 };
-const parameters = (date, useropts) => {
-  const agoms = new Date().getTime() - date.getTime();
-  return {
-    agoms: agoms < 0 ? 0 : agoms,
-    opts: {
-      ...defaultOpts,
-      ...(useropts || {})
-    }
-  };
-};
 function timeAgo(date, useropts) {
   const {
     agoms,
     opts
-  } = parameters(date, useropts);
-  const formatted = formatFunction(opts);
+  } = timeGapParameters(date, useropts);
+  const formatted = timeGapFormater(opts);
   const {
     key,
     number
-  } = getAgo(agoms, opts);
+  } = timeGapAmount(agoms, opts);
   return formatted(number, opts.decimal, key);
 }
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 const twins = 'd|D|m|M|h|H|i|s|S'.split('|');
-function getFormatarr(formatstr) {
+const timeFormatArr = formatstr => {
   const formatarr = [];
   let isplain = false;
   let plaintext = '';
@@ -231,16 +231,16 @@ function getFormatarr(formatstr) {
     });
   }
   return formatarr;
-}
-function amPm(dateobj) {
+};
+const tfcAmPm = function (dateobj) {
   let capital = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   const hours = dateobj.getHours();
   let ampm = 'am';
   if (hours >= 12) ampm = 'pm';
   if (capital) ampm = ampm.toUpperCase();
   return ampm;
-}
-function dateMinSecMs(dateobj, type) {
+};
+const tfcDateMinSecMs = function (dateobj, type) {
   let zeropad = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   let dmsms;
   if (type === 'date') dmsms = dateobj.getDate();else if (type === 'min') dmsms = dateobj.getMinutes();else if (type === 'sec') dmsms = dateobj.getSeconds();else dmsms = dateobj.getMilliseconds();
@@ -249,15 +249,15 @@ function dateMinSecMs(dateobj, type) {
     dmsms = numpad(dmsms, padcount);
   }
   return dmsms;
-}
+};
 const short$1 = 'Sun|Mon|Tue|Wed|Thu|Fri|Sat'.split('|');
 const long$1 = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|');
-function dayName(dateobj) {
+const tfcDayName = function (dateobj) {
   let full = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   const dayno = dateobj.getDay();
   if (full) return long$1[dayno];else return short$1[dayno];
-}
-function hour(dateobj, format24, zeropad) {
+};
+const tfcHour = (dateobj, format24, zeropad) => {
   let hours = dateobj.getHours();
   if (!format24) {
     if (hours > 12) hours = hours - 12;
@@ -265,10 +265,10 @@ function hour(dateobj, format24, zeropad) {
   }
   if (zeropad) hours = numpad(hours, 2);
   return hours;
-}
+};
 const short = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'.split('|');
 const long = 'January|February|March|April|May|June|July|August|September|October|November|December'.split('|'); // prettier-ignore
-function month(dateobj, name, longer) {
+const tfcMonth = (dateobj, name, longer) => {
   let monthno = dateobj.getMonth();
   if (name) {
     if (longer) return long[monthno];
@@ -277,51 +277,46 @@ function month(dateobj, name, longer) {
   ++monthno;
   if (longer) return numpad(monthno, 2);
   return monthno;
-}
-function year(dateobj) {
+};
+const tfcYear = function (dateobj) {
   let full = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   let fullyear = dateobj.getFullYear();
   if (!full) fullyear = fullyear.toString().substr(2, 2);
   return fullyear;
-}
-function converters(dateobj) {
-  return {
-    d: () => dateMinSecMs(dateobj, 'date'),
-    dd: () => dateMinSecMs(dateobj, 'date', true),
-    D: () => dayName(dateobj),
-    DD: () => dayName(dateobj, true),
-    m: () => month(dateobj, false, false),
-    mm: () => month(dateobj, false, true),
-    M: () => month(dateobj, true, false),
-    MM: () => month(dateobj, true, true),
-    y: () => year(dateobj),
-    Y: () => year(dateobj, true),
-    h: () => hour(dateobj, false, false),
-    hh: () => hour(dateobj, false, true),
-    H: () => hour(dateobj, true, false),
-    HH: () => hour(dateobj, true, true),
-    i: () => dateMinSecMs(dateobj, 'min'),
-    ii: () => dateMinSecMs(dateobj, 'min', true),
-    s: () => dateMinSecMs(dateobj, 'sec'),
-    ss: () => dateMinSecMs(dateobj, 'sec', true),
-    S: () => dateMinSecMs(dateobj, 'ms'),
-    SS: () => dateMinSecMs(dateobj, 'ms', true),
-    a: () => amPm(dateobj),
-    A: () => amPm(dateobj, true)
-  };
-}
-function keyConverter(dateobj, formatarr) {
+};
+const timeFormatConverter = (dateobj, formatarr) => {
   let string = '';
   const convlist = converters(dateobj);
   formatarr.forEach(charinfo => {
-    if (!charinfo.iskey) {
-      string += charinfo.char;
-      return;
-    }
+    if (!charinfo.iskey) return string += charinfo.char;
     string += convlist[charinfo.char]().toString();
   });
   return string;
-}
+};
+const converters = date => ({
+  d: () => tfcDateMinSecMs(date, 'date'),
+  dd: () => tfcDateMinSecMs(date, 'date', true),
+  D: () => tfcDayName(date),
+  DD: () => tfcDayName(date, true),
+  m: () => tfcMonth(date, false, false),
+  mm: () => tfcMonth(date, false, true),
+  M: () => tfcMonth(date, true, false),
+  MM: () => tfcMonth(date, true, true),
+  y: () => tfcYear(date),
+  Y: () => tfcYear(date, true),
+  h: () => tfcHour(date, false, false),
+  hh: () => tfcHour(date, false, true),
+  H: () => tfcHour(date, true, false),
+  HH: () => tfcHour(date, true, true),
+  i: () => tfcDateMinSecMs(date, 'min'),
+  ii: () => tfcDateMinSecMs(date, 'min', true),
+  s: () => tfcDateMinSecMs(date, 'sec'),
+  ss: () => tfcDateMinSecMs(date, 'sec', true),
+  S: () => tfcDateMinSecMs(date, 'ms'),
+  SS: () => tfcDateMinSecMs(date, 'ms', true),
+  a: () => tfcAmPm(date),
+  A: () => tfcAmPm(date, true)
+});
 const timeFormat = function (date, format) {
   let opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   const {
@@ -340,8 +335,8 @@ const timeFormat = function (date, format) {
       fractionalSecondDigits: 3
     }));
   }
-  const formatarr = getFormatarr(format ?? 'dd-mm-Y');
-  return keyConverter(locale, formatarr);
+  const formatarr = timeFormatArr(format ?? 'dd-mm-Y');
+  return timeFormatConverter(locale, formatarr);
 };
 const timeIsFuture = date => {
   return date.getTime() > new Date().getTime();
@@ -349,14 +344,12 @@ const timeIsFuture = date => {
 const timeIsPast = date => {
   return date.getTime() < new Date().getTime();
 };
-const timeIsToday = date => {
-  const given = new Date(date);
-  const today = new Date();
-  return given.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0);
-};
 const timeRound = date => {
   const given = new Date(date);
   return new Date(given.setHours(0, 0, 0, 0));
+};
+const timeIsToday = date => {
+  return timeRound(date).getTime() === timeRound(new Date()).getTime();
 };
 const timeShift = function (date, shiftby) {
   let amount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'day';
