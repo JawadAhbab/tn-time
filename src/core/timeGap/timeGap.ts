@@ -14,5 +14,6 @@ export function timeGap(gaptype: GapType, date: Date, useropts?: TimegapOpts) {
 
   const amount = timeGapAmounts(gap, timeClauseSort(opts.clauses), opts.maxClause)
   console.log(JSON.stringify(amount, null, 2))
+  return ''
   // return timeGapFormater({ opts, number, clause })
 }
