@@ -1,6 +1,5 @@
 'use strict';
 
-var tnConsoler = require('tn-consoler');
 var tnNumpad = require('tn-numpad');
 var tnValidate = require('tn-validate');
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
@@ -388,9 +387,6 @@ const time = d => {
   let date = d ? new Date(d) : new Date();
   const invalid = isNaN(date.getTime());
   if (invalid) date = new Date();
-  if (process.env.NODE_ENV === 'development') {
-    if (invalid) tnConsoler.consoler.log('{bgred+white:ERROR} {yellow+b:time}{white+b:()} Date is invalid');
-  }
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),

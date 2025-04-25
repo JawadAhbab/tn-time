@@ -1,4 +1,3 @@
-import { consoler } from 'tn-consoler';
 import { numpad } from 'tn-numpad';
 import { isArray } from 'tn-validate';
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
@@ -386,9 +385,6 @@ const time = d => {
   let date = d ? new Date(d) : new Date();
   const invalid = isNaN(date.getTime());
   if (invalid) date = new Date();
-  if (process.env.NODE_ENV === 'development') {
-    if (invalid) consoler.log('{bgred+white:ERROR} {yellow+b:time}{white+b:()} Date is invalid');
-  }
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),

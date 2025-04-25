@@ -1,4 +1,3 @@
-import { consoler } from 'tn-consoler'
 import { Time } from './accessories/Time'
 import { timeFormat } from './core/timeFormat/timeFormat'
 import { timeGap } from './core/timeGap/timeGap'
@@ -12,10 +11,6 @@ export const time: Time = d => {
   let date = d ? new Date(d) : new Date()
   const invalid = isNaN(date.getTime())
   if (invalid) date = new Date()
-  if (process.env.NODE_ENV === 'development') {
-    if (invalid) consoler.log('{bgred+white:ERROR} {yellow+b:time}{white+b:()} Date is invalid')
-  }
-
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),
