@@ -212,6 +212,11 @@ const timeClauseSort = clauses => {
   if (clauses.includes('msec')) sort.push('msec');
   return sort;
 };
+const timeClauseCompare = (clause1, compare, clause2) => {
+  const cv1 = clauseValue[clause1];
+  const cv2 = clauseValue[clause2];
+  return cv1 >= cv2;
+};
 const timeIsFuture = date => {
   return date.getTime() > new Date().getTime();
 };
@@ -361,11 +366,13 @@ function timeGap(gaptype, date, useropts) {
   });
 }
 const timeRound = function (date) {
-  let peg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'msec';
+  let peg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
   const given = new Date(date);
-  // given.setDate(1)
-  // given.setMonth(0)
-  // given.setHours(0, 0, 0, 0)
+  if (timeClauseCompare(peg, 'gte', 'yr')) given.setMonth(0);
+  if (timeClauseCompare(peg, 'gte', 'mo')) given.setDate(1);
+  if (timeClauseCompare(peg, 'gte', 'day')) given.setHours(0);
+  if (timeClauseCompare(peg, 'gte', 'hr')) given.setMinutes(0);
+  if (timeClauseCompare(peg, 'gte', 'min')) given.setSeconds(0);
   given.setMilliseconds(0);
   return new Date(given);
 };

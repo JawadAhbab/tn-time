@@ -1,5 +1,4 @@
 import { clauseValue } from './clauseValue'
-
 export type TimeClause = 'yr' | 'mo' | 'day' | 'hr' | 'min' | 'sec' | 'msec'
 
 export const timeClauseSort = (clauses: TimeClause[]) => {

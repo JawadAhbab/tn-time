@@ -1,2 +1,4 @@
 import { TimeClause } from '../accessories/TimeClause';
-export declare const timeRound: (date: Date, peg?: TimeClause) => Date;
+type Peg = Exclude<TimeClause, 'msec'>;
+export declare const timeRound: (date: Date, peg?: Peg) => Date;
+export {};
