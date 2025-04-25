@@ -5,8 +5,10 @@ export type TimegapFormats = ObjectInUnion<TimeClause, TimegapFormatInput>
 export type TimegapReadyFormats = ObjectInUnion<TimeClause, [string, string]>
 export type TimegapReadyOpts = OptionLessShallow<TimegapOpts>
 export type TimegapFormatInput = string | [Singular: string, Plural: string]
-export interface TimegapOpts extends Optional<ObjectInUnion<TimeClause, boolean>> {
+export interface TimegapOpts {
   decimal?: number
+  maxClause?: number
+  clauses?: TimeClause[]
   variant?: TimegapVariant
   formats?: Optional<TimegapFormats>
   prefix?: string
