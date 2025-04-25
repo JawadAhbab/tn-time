@@ -2,9 +2,8 @@ import { time } from '../src/index'
 console.clear()
 
 console.log(
-  time(time().shift(1.002, 'day')).gap({
-    maxClause: 3,
-    clauses: ['day', 'hr', 'min'],
-    // trimBlankClause: true,
+  time(time(time().round()).shift(24, 'mo')).remain({
+    clauses: ['yr', 'mo', 'day'],
+    maxClause: 2,
   })
 )

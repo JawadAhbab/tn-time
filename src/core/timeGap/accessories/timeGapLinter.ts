@@ -14,7 +14,8 @@ export const timeGapLinter = (amounts: TimeGapAmount[], opts: TimegapReadyOpts) 
     if (linted.length <= 1) return
     const last = linted[linted.length - 1]
     const last2nd = linted[linted.length - 2]
-    const maxnum = clauseValue[last2nd.clause] / clauseValue[last.clause]
+    let maxnum = clauseValue[last2nd.clause] / clauseValue[last.clause]
+    if (last.clause === 'mo') maxnum = Math.floor(maxnum)
     if (last.number < maxnum) return
     last2nd.number++
     linted.pop()
