@@ -9,7 +9,7 @@
   "scripts": {
     "Serve": "nodemon --require @swc-node/register ./examples/index.example.ts",
     "Build": "rimraf dist && rollup -c",
-    "Publish": "npm run Build && yarn publish"
+    "Publish": "yarn Build && yarn publish"
   },
   "repository": {
     "type": "git",
