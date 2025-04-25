@@ -23,7 +23,7 @@ export const time: Time = d => {
     ago: opts => timeGap('AGO', date, opts),
     remain: opts => timeGap('REMAIN', date, opts),
     shift: (shiftby, amount) => timeShift(date, shiftby, amount),
-    round: () => timeRound(date),
+    round: roundby => timeRound(date, roundby),
     isToday: () => timeIsToday(date),
     isPast: () => timeIsPast(date),
     isFuture: () => timeIsFuture(date),

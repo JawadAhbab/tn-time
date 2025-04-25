@@ -366,13 +366,13 @@ function timeGap(gaptype, date, useropts) {
   });
 }
 const timeRound = function (date) {
-  let peg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
+  let roundby = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
   const given = new Date(date);
-  if (timeClauseCompare(peg, 'gte', 'yr')) given.setMonth(0);
-  if (timeClauseCompare(peg, 'gte', 'mo')) given.setDate(1);
-  if (timeClauseCompare(peg, 'gte', 'day')) given.setHours(0);
-  if (timeClauseCompare(peg, 'gte', 'hr')) given.setMinutes(0);
-  if (timeClauseCompare(peg, 'gte', 'min')) given.setSeconds(0);
+  if (timeClauseCompare(roundby, 'gte', 'yr')) given.setMonth(0);
+  if (timeClauseCompare(roundby, 'gte', 'mo')) given.setDate(1);
+  if (timeClauseCompare(roundby, 'gte', 'day')) given.setHours(0);
+  if (timeClauseCompare(roundby, 'gte', 'hr')) given.setMinutes(0);
+  if (timeClauseCompare(roundby, 'gte', 'min')) given.setSeconds(0);
   given.setMilliseconds(0);
   return new Date(given);
 };
@@ -398,7 +398,7 @@ const time = d => {
     ago: opts => timeGap('AGO', date, opts),
     remain: opts => timeGap('REMAIN', date, opts),
     shift: (shiftby, amount) => timeShift(date, shiftby, amount),
-    round: () => timeRound(date),
+    round: roundby => timeRound(date, roundby),
     isToday: () => timeIsToday(date),
     isPast: () => timeIsPast(date),
     isFuture: () => timeIsFuture(date)
