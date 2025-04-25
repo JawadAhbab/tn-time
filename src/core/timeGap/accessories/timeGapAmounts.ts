@@ -2,10 +2,7 @@ import { clauseValue } from '../../../accessories/clauseValue'
 import { TimeClause } from '../../../accessories/TimeClause'
 import { TimegapFormats } from './TimeGap'
 export type TimeGapAmount = { number: number; clause: keyof TimegapFormats }
-const getCaluseAmount = (ms: number, clause: TimeClause): TimeGapAmount => ({
-  clause,
-  number: ms / clauseValue[clause],
-})
+const getCaluseAmount = (ms: number, clause: TimeClause): TimeGapAmount => ({ clause, number: ms / clauseValue[clause] })
 
 export const timeGapAmounts = (
   ms: number,
