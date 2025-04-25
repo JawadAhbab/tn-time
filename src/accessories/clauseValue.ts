@@ -8,7 +8,7 @@ const day = hr * 24
 const mo = day * 30
 const yr = day * 365
 
-export const conv: ObjectInUnion<TimeClause, number> = {
+export const clauseValue: ObjectInUnion<TimeClause, number> = {
   msec: 1,
   yr,
   sec,

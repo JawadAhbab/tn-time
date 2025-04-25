@@ -1,4 +1,4 @@
-import { conv } from '../../../accessories/conv'
+import { clauseValue } from '../../../accessories/clauseValue'
 import { TimeClause } from '../../../accessories/TimeClause'
 import { TimegapFormats } from './TimeGap'
 export type TimeGapAmount = { number: number; clause: keyof TimegapFormats }
@@ -14,7 +14,7 @@ export const timeGapAmounts = (
 
   let amount!: TimeGapAmount
   for (const clause of fixedClause ? [fixedClause] : clauses) {
-    if (ms < conv[clause] && lastclause !== clause) continue
+    if (ms < clauseValue[clause] && lastclause !== clause) continue
     amount = getCaluseAmount(ms, clause)
     break
   }
@@ -24,10 +24,14 @@ export const timeGapAmounts = (
     amounts.push(amount)
     return amounts
   } else {
+    const nextClause = clauses[clauses.findIndex(i => i === amount.clause) + 1]
+    if (!nextClause) amounts.push(amount)
+    else {
+    }
     return amounts
   }
 }
 
 const getCaluseAmount = (ms: number, clause: TimeClause): TimeGapAmount => {
-  return { number: ms / conv[clause], clause }
+  return { number: ms / clauseValue[clause], clause }
 }
