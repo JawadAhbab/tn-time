@@ -7,7 +7,7 @@
   "module": "dist/index.esm.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "Serve": "nodemon ./examples/index.example.ts",
+    "Serve": "nodemon --require @swc-node/register ./examples/index.example.ts",
     "Build": "rimraf dist && rollup -c",
     "Publish": "npm run Build && yarn publish"
   },
@@ -24,13 +24,13 @@
     "tn-numpad": "^2.1.2",
     "tn-validate": "^4.1.4"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.27.0",
     "@babel/core": "^7.26.10",
     "@babel/plugin-transform-runtime": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
     "@rollup/plugin-babel": "^6.0.4",
+    "@swc-node/register": "^1.10.10",
     "@types/node": "^22.15.0",
     "rollup": "^4.40.0",
     "rollup-plugin-typescript2": "^0.36.0",
