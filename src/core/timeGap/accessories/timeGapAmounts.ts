@@ -25,10 +25,16 @@ export const timeGapAmounts = (
     return amounts
   } else {
     const nextClause = clauses[clauses.findIndex(i => i === amount.clause) + 1]
-    if (!nextClause) amounts.push(amount)
-    else {
+    if (!nextClause) {
+      amounts.push(amount)
+      return amounts
+    } else {
+      const flatnumber = Math.floor(amount.number)
+      const ms = Math.round(clauseValue[amount.clause] * (amount.number - flatnumber))
+      amount.number = flatnumber
+      amounts.push(amount)
+      return timeGapAmounts(ms, clauses, maxClause, amounts, nextClause)
     }
-    return amounts
   }
 }
 

@@ -220,7 +220,7 @@ const timeGapAmounts = function (ms, clauses, maxClause) {
   let fixedClause = arguments.length > 4 ? arguments[4] : undefined;
   const lastclause = clauses[clauses.length - 1] ?? 'yr';
   let amount;
-  for (const clause of clauses) {
+  for (const clause of fixedClause ? [fixedClause] : clauses) {
     if (ms < clauseValue[clause] && lastclause !== clause) continue;
     amount = getCaluseAmount(ms, clause);
     break;
@@ -231,8 +231,16 @@ const timeGapAmounts = function (ms, clauses, maxClause) {
     return amounts;
   } else {
     const nextClause = clauses[clauses.findIndex(i => i === amount.clause) + 1];
-    if (!nextClause) amounts.push(amount);
-    return amounts;
+    if (!nextClause) {
+      amounts.push(amount);
+      return amounts;
+    } else {
+      const flatnumber = Math.floor(amount.number);
+      const ms = Math.round(clauseValue[amount.clause] * (amount.number - flatnumber));
+      amount.number = flatnumber;
+      amounts.push(amount);
+      return timeGapAmounts(ms, clauses, maxClause, amounts, nextClause);
+    }
   }
 };
 const getCaluseAmount = (ms, clause) => {
