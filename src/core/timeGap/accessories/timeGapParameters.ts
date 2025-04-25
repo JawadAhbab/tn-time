@@ -1,11 +1,8 @@
 import { TimeagoOpts, TimeagoReadyOpts } from './TimeGap'
 
 export const timeGapParameters = (date: Date, useropts?: TimeagoOpts) => {
-  const agoms = new Date().getTime() - date.getTime()
-  return {
-    agoms: agoms < 0 ? 0 : agoms,
-    opts: { ...defaultOpts, ...(useropts || {}) },
-  }
+  const gap = Math.abs(new Date().getTime() - date.getTime())
+  return { gap, opts: { ...defaultOpts, ...(useropts || {}) } }
 }
 
 const defaultOpts: TimeagoReadyOpts = {

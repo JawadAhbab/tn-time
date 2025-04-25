@@ -1,6 +1,6 @@
 import { TimeagoOpts } from './TimeGap';
 export declare const timeGapParameters: (date: Date, useropts?: TimeagoOpts) => {
-    agoms: number;
+    gap: number;
     opts: {
         decimal: number;
         variant: import("./TimeGap").TimeagoVariant;

@@ -1,56 +1,6 @@
 import { consoler } from 'tn-consoler';
 import { isArray } from 'tn-validate';
 import { numpad } from 'tn-numpad';
-const timeGapFormater = opts => {
-  const formats = defaultFormats[opts.variant];
-  Object.entries(opts.formats).forEach(_ref => {
-    let [key, value] = _ref;
-    const input = value;
-    formats[key] = isArray(input) ? input : [input, input];
-  });
-  return (number, decimal, key) => {
-    const num = parseFloat(number.toFixed(decimal));
-    return `${opts.prefix}${num}${formats[key][num <= 1 ? 0 : 1]}${opts.postfix}`;
-  };
-};
-const defaultFormats = {
-  minimal: {
-    yr: ['y', 'y'],
-    mo: ['mo', 'mo'],
-    day: ['d', 'd'],
-    hr: ['h', 'h'],
-    min: ['m', 'm'],
-    sec: ['s', 's'],
-    msec: ['ms', 'ms']
-  },
-  short: {
-    yr: [' yr', ' yrs'],
-    mo: [' mo', ' mos'],
-    day: [' day', ' days'],
-    hr: [' hr', ' hrs'],
-    min: [' min', ' mins'],
-    sec: [' sec', ' secs'],
-    msec: [' msec', ' msecs']
-  },
-  verbose: {
-    yr: [' year', ' years'],
-    mo: [' month', ' months'],
-    day: [' day', ' days'],
-    hr: [' hour', ' hours'],
-    min: [' minute', ' minutes'],
-    sec: [' second', ' seconds'],
-    msec: [' millisecond', ' milliseconds']
-  },
-  bangla: {
-    yr: [' বছর', ' বছর'],
-    mo: [' মাস', ' মাস'],
-    day: [' দিন', ' দিন'],
-    hr: [' ঘণ্টা', ' ঘণ্টা'],
-    min: [' মিনিট', ' মিনিট'],
-    sec: [' সেকেন্ড', ' সেকেন্ড'],
-    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড']
-  }
-};
 const sec = 1000;
 const min = sec * 60;
 const hr = min * 60;
@@ -118,10 +68,60 @@ const timeGapAmount = (agoms, opts) => {
     key: 'msec'
   };
 };
+const timeGapFormater = opts => {
+  const formats = defaultFormats[opts.variant];
+  Object.entries(opts.formats).forEach(_ref => {
+    let [key, value] = _ref;
+    const input = value;
+    formats[key] = isArray(input) ? input : [input, input];
+  });
+  return (number, decimal, key) => {
+    const num = parseFloat(number.toFixed(decimal));
+    return `${opts.prefix}${num}${formats[key][num <= 1 ? 0 : 1]}${opts.postfix}`;
+  };
+};
+const defaultFormats = {
+  minimal: {
+    yr: ['y', 'y'],
+    mo: ['mo', 'mo'],
+    day: ['d', 'd'],
+    hr: ['h', 'h'],
+    min: ['m', 'm'],
+    sec: ['s', 's'],
+    msec: ['ms', 'ms']
+  },
+  short: {
+    yr: [' yr', ' yrs'],
+    mo: [' mo', ' mos'],
+    day: [' day', ' days'],
+    hr: [' hr', ' hrs'],
+    min: [' min', ' mins'],
+    sec: [' sec', ' secs'],
+    msec: [' msec', ' msecs']
+  },
+  verbose: {
+    yr: [' year', ' years'],
+    mo: [' month', ' months'],
+    day: [' day', ' days'],
+    hr: [' hour', ' hours'],
+    min: [' minute', ' minutes'],
+    sec: [' second', ' seconds'],
+    msec: [' millisecond', ' milliseconds']
+  },
+  bangla: {
+    yr: [' বছর', ' বছর'],
+    mo: [' মাস', ' মাস'],
+    day: [' দিন', ' দিন'],
+    hr: [' ঘণ্টা', ' ঘণ্টা'],
+    min: [' মিনিট', ' মিনিট'],
+    sec: [' সেকেন্ড', ' সেকেন্ড'],
+    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড']
+  }
+};
 const timeGapParameters = (date, useropts) => {
-  const agoms = new Date().getTime() - date.getTime();
+  const gap = Math.abs(new Date().getTime() - date.getTime());
   return {
-    agoms: agoms < 0 ? 0 : agoms,
+    gap,
     opts: {
       ...defaultOpts,
       ...(useropts || {})
@@ -144,15 +144,15 @@ const defaultOpts = {
 };
 function timeAgo(date, useropts) {
   const {
-    agoms,
+    gap,
     opts
   } = timeGapParameters(date, useropts);
-  const formatted = timeGapFormater(opts);
   const {
     key,
     number
-  } = timeGapAmount(agoms, opts);
-  return formatted(number, opts.decimal, key);
+  } = timeGapAmount(gap, opts);
+  const formater = timeGapFormater(opts);
+  return formater(number, opts.decimal, key);
 }
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 const twins = 'd|D|m|M|h|H|i|s|S'.split('|');

@@ -1,6 +1,6 @@
 import { consoler } from 'tn-consoler'
 import { Time } from './accessories/Time'
-import { timeAgo } from './core/timeAgo/timeAgo'
+import { timeAgo } from './core/timeGap/timeAgo'
 import { timeFormat } from './core/timeFormat/timeFormat'
 import { timeIsFuture } from './core/timeIsFuture'
 import { timeIsPast } from './core/timeIsPast'

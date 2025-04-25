@@ -1,4 +1,4 @@
-import { TimeagoOpts } from '../core/timeAgo/accessories/TimeGap'
+import { TimeagoOpts } from '../core/timeGap/accessories/TimeGap'
 import { TimeFormatOpts } from '../core/timeFormat/accessories/TimeFormat'
 import { TimeClause } from './TimeClause'
 
