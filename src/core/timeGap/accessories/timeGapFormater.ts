@@ -5,17 +5,10 @@ import { TimeGapAmount } from './timeGapAmounts'
 type Props = { amounts: TimeGapAmount[]; opts: TimegapReadyOpts }
 
 export const timeGapFormater = ({ amounts, opts }: Props): string => {
-  const { decimal, trimBlankClause, lastBlankClause, prefix, clauseJoin, postfix } = opts
+  const { prefix, clauseJoin, postfix } = opts
   const formats = getFormats(opts)
-  const astrs: string[] = []
-
-  amounts.forEach(({ number, clause }, idx) => {
-    const num = parseFloat(number.toFixed(decimal))
-    const str = `${num}${formats[clause][num <= 1 ? 0 : 1]}`
-    if (idx === 0 || (!trimBlankClause && (amounts.length - 1 !== idx || lastBlankClause)) || num) astrs.push(str)
-  })
-
-  return `${prefix}${astrs.join(clauseJoin)}${postfix}`
+  const timeclauses = amounts.map(({ number, clause }) => `${number}${formats[clause][number <= 1 ? 0 : 1]}`)
+  return `${prefix}${timeclauses.join(clauseJoin)}${postfix}`
 }
 
 const getFormats = (opts: TimegapReadyOpts) => {
