@@ -1,7 +1,7 @@
 import { consoler } from 'tn-consoler'
 import { Time } from './accessories/Time'
-import { timeAgo } from './core/timeGap/timeAgo'
 import { timeFormat } from './core/timeFormat/timeFormat'
+import { timeGap } from './core/timeGap/timeGap'
 import { timeIsFuture } from './core/timeIsFuture'
 import { timeIsPast } from './core/timeIsPast'
 import { timeIsToday } from './core/timeIsToday'
@@ -19,7 +19,9 @@ export const time: Time = d => {
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),
-    ago: opts => timeAgo(date, opts),
+    gap: opts => timeGap('GAP', date, opts),
+    ago: opts => timeGap('AGO', date, opts),
+    remain: opts => timeGap('REMAIN', date, opts),
     shift: (shiftby, amount) => timeShift(date, shiftby, amount),
     round: () => timeRound(date),
     isToday: () => timeIsToday(date),

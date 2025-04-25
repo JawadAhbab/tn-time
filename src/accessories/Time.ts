@@ -4,7 +4,9 @@ import { TimeClause } from './TimeClause'
 
 export type Time = (d?: string | number | Date) => {
   getDate(): Date
+  gap(opts?: TimeagoOpts): string
   ago(opts?: TimeagoOpts): string
+  remain(opts?: TimeagoOpts): string
   shift(shiftby: number, amount?: TimeClause): Date
   round(): Date
   isToday(): boolean

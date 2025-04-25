@@ -1,159 +1,6 @@
 import { consoler } from 'tn-consoler';
-import { isArray } from 'tn-validate';
 import { numpad } from 'tn-numpad';
-const sec = 1000;
-const min = sec * 60;
-const hr = min * 60;
-const day = hr * 24;
-const mo = day * 30;
-const yr = day * 365;
-const conv = {
-  msec: 1,
-  yr,
-  sec,
-  min,
-  hr,
-  day,
-  mo
-};
-const timeGapAmount = (agoms, opts) => {
-  const {
-    yr,
-    mo,
-    day,
-    hr,
-    min,
-    sec,
-    msec
-  } = opts;
-  let lastkey = 'yr';
-  if (mo) lastkey = 'mo';
-  if (day) lastkey = 'day';
-  if (hr) lastkey = 'hr';
-  if (min) lastkey = 'min';
-  if (sec) lastkey = 'sec';
-  if (msec) lastkey = 'msec';
-  if (agoms >= conv.yr && yr || lastkey === 'yr') {
-    return {
-      number: agoms / conv.yr,
-      key: 'yr'
-    };
-  } else if (agoms >= conv.mo && mo || lastkey === 'mo') {
-    return {
-      number: agoms / conv.mo,
-      key: 'mo'
-    };
-  } else if (agoms >= conv.day && day || lastkey === 'day') {
-    return {
-      number: agoms / conv.day,
-      key: 'day'
-    };
-  } else if (agoms >= conv.hr && hr || lastkey === 'hr') {
-    return {
-      number: agoms / conv.hr,
-      key: 'hr'
-    };
-  } else if (agoms >= conv.min && min || lastkey === 'min') {
-    return {
-      number: agoms / conv.min,
-      key: 'min'
-    };
-  } else if (agoms >= conv.sec && sec || lastkey === 'sec') {
-    return {
-      number: agoms / conv.sec,
-      key: 'sec'
-    };
-  } else return {
-    number: agoms,
-    key: 'msec'
-  };
-};
-const timeGapFormater = opts => {
-  const formats = defaultFormats[opts.variant];
-  Object.entries(opts.formats).forEach(_ref => {
-    let [key, value] = _ref;
-    const input = value;
-    formats[key] = isArray(input) ? input : [input, input];
-  });
-  return (number, decimal, key) => {
-    const num = parseFloat(number.toFixed(decimal));
-    return `${opts.prefix}${num}${formats[key][num <= 1 ? 0 : 1]}${opts.postfix}`;
-  };
-};
-const defaultFormats = {
-  minimal: {
-    yr: ['y', 'y'],
-    mo: ['mo', 'mo'],
-    day: ['d', 'd'],
-    hr: ['h', 'h'],
-    min: ['m', 'm'],
-    sec: ['s', 's'],
-    msec: ['ms', 'ms']
-  },
-  short: {
-    yr: [' yr', ' yrs'],
-    mo: [' mo', ' mos'],
-    day: [' day', ' days'],
-    hr: [' hr', ' hrs'],
-    min: [' min', ' mins'],
-    sec: [' sec', ' secs'],
-    msec: [' msec', ' msecs']
-  },
-  verbose: {
-    yr: [' year', ' years'],
-    mo: [' month', ' months'],
-    day: [' day', ' days'],
-    hr: [' hour', ' hours'],
-    min: [' minute', ' minutes'],
-    sec: [' second', ' seconds'],
-    msec: [' millisecond', ' milliseconds']
-  },
-  bangla: {
-    yr: [' বছর', ' বছর'],
-    mo: [' মাস', ' মাস'],
-    day: [' দিন', ' দিন'],
-    hr: [' ঘণ্টা', ' ঘণ্টা'],
-    min: [' মিনিট', ' মিনিট'],
-    sec: [' সেকেন্ড', ' সেকেন্ড'],
-    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড']
-  }
-};
-const timeGapParameters = (date, useropts) => {
-  const gap = Math.abs(new Date().getTime() - date.getTime());
-  return {
-    gap,
-    opts: {
-      ...defaultOpts,
-      ...(useropts || {})
-    }
-  };
-};
-const defaultOpts = {
-  decimal: 0,
-  variant: 'verbose',
-  formats: {},
-  prefix: '',
-  postfix: '',
-  yr: true,
-  mo: false,
-  day: true,
-  hr: true,
-  min: true,
-  sec: true,
-  msec: false
-};
-function timeAgo(date, useropts) {
-  const {
-    gap,
-    opts
-  } = timeGapParameters(date, useropts);
-  const {
-    key,
-    number
-  } = timeGapAmount(gap, opts);
-  const formater = timeGapFormater(opts);
-  return formater(number, opts.decimal, key);
-}
+import { isArray } from 'tn-validate';
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 const twins = 'd|D|m|M|h|H|i|s|S'.split('|');
 const timeFormatArr = formatstr => {
@@ -344,6 +191,161 @@ const timeIsFuture = date => {
 const timeIsPast = date => {
   return date.getTime() < new Date().getTime();
 };
+const sec = 1000;
+const min = sec * 60;
+const hr = min * 60;
+const day = hr * 24;
+const mo = day * 30;
+const yr = day * 365;
+const conv = {
+  msec: 1,
+  yr,
+  sec,
+  min,
+  hr,
+  day,
+  mo
+};
+const timeGapAmount = (agoms, opts) => {
+  const {
+    yr,
+    mo,
+    day,
+    hr,
+    min,
+    sec,
+    msec
+  } = opts;
+  let lastkey = 'yr';
+  if (mo) lastkey = 'mo';
+  if (day) lastkey = 'day';
+  if (hr) lastkey = 'hr';
+  if (min) lastkey = 'min';
+  if (sec) lastkey = 'sec';
+  if (msec) lastkey = 'msec';
+  if (agoms >= conv.yr && yr || lastkey === 'yr') {
+    return {
+      number: agoms / conv.yr,
+      key: 'yr'
+    };
+  } else if (agoms >= conv.mo && mo || lastkey === 'mo') {
+    return {
+      number: agoms / conv.mo,
+      key: 'mo'
+    };
+  } else if (agoms >= conv.day && day || lastkey === 'day') {
+    return {
+      number: agoms / conv.day,
+      key: 'day'
+    };
+  } else if (agoms >= conv.hr && hr || lastkey === 'hr') {
+    return {
+      number: agoms / conv.hr,
+      key: 'hr'
+    };
+  } else if (agoms >= conv.min && min || lastkey === 'min') {
+    return {
+      number: agoms / conv.min,
+      key: 'min'
+    };
+  } else if (agoms >= conv.sec && sec || lastkey === 'sec') {
+    return {
+      number: agoms / conv.sec,
+      key: 'sec'
+    };
+  } else return {
+    number: agoms,
+    key: 'msec'
+  };
+};
+const timeGapFormater = opts => {
+  const formats = defaultFormats[opts.variant];
+  Object.entries(opts.formats).forEach(_ref => {
+    let [key, value] = _ref;
+    const input = value;
+    formats[key] = isArray(input) ? input : [input, input];
+  });
+  return (number, decimal, key) => {
+    const num = parseFloat(number.toFixed(decimal));
+    return `${opts.prefix}${num}${formats[key][num <= 1 ? 0 : 1]}${opts.postfix}`;
+  };
+};
+const defaultFormats = {
+  minimal: {
+    yr: ['y', 'y'],
+    mo: ['mo', 'mo'],
+    day: ['d', 'd'],
+    hr: ['h', 'h'],
+    min: ['m', 'm'],
+    sec: ['s', 's'],
+    msec: ['ms', 'ms']
+  },
+  short: {
+    yr: [' yr', ' yrs'],
+    mo: [' mo', ' mos'],
+    day: [' day', ' days'],
+    hr: [' hr', ' hrs'],
+    min: [' min', ' mins'],
+    sec: [' sec', ' secs'],
+    msec: [' msec', ' msecs']
+  },
+  verbose: {
+    yr: [' year', ' years'],
+    mo: [' month', ' months'],
+    day: [' day', ' days'],
+    hr: [' hour', ' hours'],
+    min: [' minute', ' minutes'],
+    sec: [' second', ' seconds'],
+    msec: [' millisecond', ' milliseconds']
+  },
+  bangla: {
+    yr: [' বছর', ' বছর'],
+    mo: [' মাস', ' মাস'],
+    day: [' দিন', ' দিন'],
+    hr: [' ঘণ্টা', ' ঘণ্টা'],
+    min: [' মিনিট', ' মিনিট'],
+    sec: [' সেকেন্ড', ' সেকেন্ড'],
+    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড']
+  }
+};
+const timeGapParameters = (date, useropts) => {
+  const gapms = Math.abs(new Date().getTime() - date.getTime());
+  return {
+    gapms,
+    opts: {
+      ...defaultOpts,
+      ...(useropts || {})
+    }
+  };
+};
+const defaultOpts = {
+  decimal: 0,
+  variant: 'verbose',
+  formats: {},
+  prefix: '',
+  postfix: '',
+  yr: true,
+  mo: false,
+  day: true,
+  hr: true,
+  min: true,
+  sec: true,
+  msec: false
+};
+function timeGap(gaptype, date, useropts) {
+  const {
+    gapms,
+    opts
+  } = timeGapParameters(date, useropts);
+  let gap = gapms;
+  if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0;else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0;
+  const {
+    key,
+    number
+  } = timeGapAmount(gap, opts);
+  const formater = timeGapFormater(opts);
+  return formater(number, opts.decimal, key);
+}
 const timeRound = date => {
   const given = new Date(date);
   return new Date(given.setHours(0, 0, 0, 0));
@@ -366,7 +368,9 @@ const time = d => {
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),
-    ago: opts => timeAgo(date, opts),
+    gap: opts => timeGap('GAP', date, opts),
+    ago: opts => timeGap('AGO', date, opts),
+    remain: opts => timeGap('REMAIN', date, opts),
     shift: (shiftby, amount) => timeShift(date, shiftby, amount),
     round: () => timeRound(date),
     isToday: () => timeIsToday(date),
