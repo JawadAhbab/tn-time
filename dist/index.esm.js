@@ -255,6 +255,14 @@ const timeGapFormater = _ref => {
     amounts,
     opts
   } = _ref;
+  const {
+    decimal,
+    trimBlankClause,
+    lastBlankClause,
+    prefix,
+    clauseJoin,
+    postfix
+  } = opts;
   const formats = getFormats(opts);
   const astrs = [];
   amounts.forEach((_ref2, idx) => {
@@ -262,11 +270,11 @@ const timeGapFormater = _ref => {
       number,
       clause
     } = _ref2;
-    const num = parseFloat(number.toFixed(opts.decimal));
+    const num = parseFloat(number.toFixed(decimal));
     const str = `${num}${formats[clause][num <= 1 ? 0 : 1]}`;
-    if (idx === 0 || !opts.trimBlankClause && amounts.length - 1 !== idx || num || !opts.trimBlankClause && opts.lastBlankClause) astrs.push(str);
+    if (idx === 0 || !trimBlankClause && (amounts.length - 1 !== idx || lastBlankClause) || num) astrs.push(str);
   });
-  return `${opts.prefix}${astrs.join(opts.clauseJoin)}${opts.postfix}`;
+  return `${prefix}${astrs.join(clauseJoin)}${postfix}`;
 };
 const getFormats = opts => {
   const formats = defaultFormats[opts.variant];
