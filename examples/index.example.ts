@@ -6,7 +6,7 @@ console.log(
   time('Fri, 19 Apr 2025 05:01:47 GMT').gap({
     prefix: 'f',
     decimal: 2,
-    maxClause: 3,
+    maxClause: 2,
     clauses: ['day', 'hr', 'min', 'sec'],
   })
 )

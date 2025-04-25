@@ -217,6 +217,10 @@ const clauseValue = {
   day,
   mo
 };
+const getCaluseAmount = (ms, clause) => ({
+  clause,
+  number: ms / clauseValue[clause]
+});
 const timeGapAmounts = function (ms, clauses, maxClause) {
   let amounts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
   let fixedClause = arguments.length > 4 ? arguments[4] : undefined;
@@ -246,12 +250,6 @@ const timeGapAmounts = function (ms, clauses, maxClause) {
       return timeGapAmounts(ms, clauses, maxClause, amounts, nextClause);
     }
   }
-};
-const getCaluseAmount = (ms, clause) => {
-  return {
-    number: ms / clauseValue[clause],
-    clause
-  };
 };
 const timeGapParameters = (date, useropts) => {
   const gapms = Math.abs(new Date().getTime() - date.getTime());
