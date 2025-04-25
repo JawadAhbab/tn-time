@@ -1,6 +1,6 @@
 {
   "name": "tn-time",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": " ",
   "keywords": [],
   "main": "dist/index.cjs.js",
@@ -34,7 +34,6 @@
     "@swc/core": "^1.11.22",
     "@types/node": "^22.15.0",
     "rollup": "^4.40.0",
-    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "tn-typescript": "^2.1.4",
     "typescript": "^5.8.3"

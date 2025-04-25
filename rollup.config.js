@@ -1,5 +1,4 @@
 const typescript = require('rollup-plugin-typescript2')
-const { terser } = require('rollup-plugin-terser')
 const { getBabelOutputPlugin } = require('@rollup/plugin-babel')
 const pkg = require('./package.json')
 
@@ -23,12 +22,12 @@ module.exports = [
     input,
     external,
     output: { file: pkg.main, format: 'cjs' },
-    plugins: [tsplug(true), babelplug(true, false), terser()],
+    plugins: [tsplug(true), babelplug(true, false)],
   },
   {
     input,
     external,
     output: { file: pkg.module, format: 'esm' },
-    plugins: [tsplug(), babelplug(), terser()],
+    plugins: [tsplug(), babelplug()],
   },
 ]

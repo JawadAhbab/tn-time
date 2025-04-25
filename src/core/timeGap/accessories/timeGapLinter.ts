@@ -24,12 +24,12 @@ export const timeGapLinter = (amounts: TimeGapAmount[], opts: TimegapReadyOpts) 
 
   if (!lastBlankClause) removeLastBlanks()
   function removeLastBlanks() {
-    const last = linted[linted.length - 1]
-    if (last.number) return
+    if (linted.length <= 1) return
+    if (linted[linted.length - 1].number) return
     linted.pop()
     removeLastBlanks()
   }
 
-  if (trimBlankClause) linted = linted.filter(i => i.number)
+  if (trimBlankClause) linted = linted.filter((i, idx) => idx === 0 || i.number)
   return linted
 }

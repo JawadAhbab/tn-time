@@ -1,1 +1,424 @@
-"use strict";var e=require("tn-numpad"),t=require("tn-validate");const s="d|D|m|M|y|Y|h|H|i|s|S|a|A".split("|"),n="d|D|m|M|h|H|i|s|S".split("|"),r=function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];let s="am";return e.getHours()>=12&&(s="pm"),t&&(s=s.toUpperCase()),s},i=function(t,s){let n,r=arguments.length>2&&void 0!==arguments[2]&&arguments[2];if(n="date"===s?t.getDate():"min"===s?t.getMinutes():"sec"===s?t.getSeconds():t.getMilliseconds(),r){const t="ms"===s?3:2;n=e.numpad(n,t)}return n},a="Sun|Mon|Tue|Wed|Thu|Fri|Sat".split("|"),u="Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday".split("|"),o=function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];const s=e.getDay();return t?u[s]:a[s]},c=(t,s,n)=>{let r=t.getHours();return s||(r>12&&(r-=12),0===r&&(r=12)),n&&(r=e.numpad(r,2)),r},l="Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec".split("|"),m="January|February|March|April|May|June|July|August|September|October|November|December".split("|"),d=(t,s,n)=>{let r=t.getMonth();return s?n?m[r]:l[r]:(++r,n?e.numpad(r,2):r)},h=function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1],s=e.getFullYear();return t||(s=s.toString().substr(2,2)),s},y=e=>({d:()=>i(e,"date"),dd:()=>i(e,"date",!0),D:()=>o(e),DD:()=>o(e,!0),m:()=>d(e,!1,!1),mm:()=>d(e,!1,!0),M:()=>d(e,!0,!1),MM:()=>d(e,!0,!0),y:()=>h(e),Y:()=>h(e,!0),h:()=>c(e,!1,!1),hh:()=>c(e,!1,!0),H:()=>c(e,!0,!1),HH:()=>c(e,!0,!0),i:()=>i(e,"min"),ii:()=>i(e,"min",!0),s:()=>i(e,"sec"),ss:()=>i(e,"sec",!0),S:()=>i(e,"ms"),SS:()=>i(e,"ms",!0),a:()=>r(e),A:()=>r(e,!0)}),p=function(e,t){let r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};const{zone:i}=r;let a=e;i&&(a=new Date(new Date(e).toLocaleString("en-US",{timeZone:i,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"})));return((e,t)=>{let s="";const n=y(e);return t.forEach((e=>{if(!e.iskey)return s+=e.char;s+=n[e.char]().toString()})),s})(a,(e=>{const t=[];let r=!1,i="",a=!1;return e.split("").forEach((e=>{if("{"!==e){if("}"===e)return t.push({iskey:!1,char:i}),i="",void(r=!1);if(r)i+=e;else{if(a)s.includes(e)&&e===a?t.push({iskey:!0,char:e+e}):s.includes(e)?(t.push({iskey:!0,char:a}),t.push({iskey:!0,char:e})):(t.push({iskey:!0,char:a}),t.push({iskey:!1,char:e}));else{if(n.includes(e))return void(a=e);s.includes(e)?t.push({iskey:!0,char:e}):t.push({iskey:!1,char:e})}a=!1}}else r=!0})),a&&t.push({iskey:!0,char:a}),t})(t??"dd-mm-Y"))},g=e=>e.getTime()>(new Date).getTime(),f=e=>e.getTime()<(new Date).getTime(),b=36e5,D=24*b,M={msec:1,yr:365*D,sec:1e3,min:6e4,hr:b,day:D,mo:30*D},v=(e,t)=>({clause:t,number:e/M[t]}),S=function(e,t,s){let n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:[],r=arguments.length>4?arguments[4]:void 0;const i=t[t.length-1]??"yr";let a;if(r)a=v(e,r);else for(const s of t)if(!(e<M[s]&&i!==s)){a=v(e,s);break}if(n.length+1>=s)return n.push(a),n;{const e=t[t.findIndex((e=>e===a.clause))+1];if(e){const r=Math.floor(a.number),i=Math.round(M[a.clause]*(a.number-r));return a.number=r,n.push(a),S(i,t,s,n,e)}return n.push(a),n}},k=e=>{const s=T[e.variant];return Object.entries(e.formats).forEach((e=>{let[n,r]=e;const i=r;s[n]=t.isArray(i)?i:[i,i]})),s},T={minimal:{yr:["y","y"],mo:["mo","mo"],day:["d","d"],hr:["h","h"],min:["m","m"],sec:["s","s"],msec:["ms","ms"]},short:{yr:[" yr"," yrs"],mo:[" mo"," mos"],day:[" day"," days"],hr:[" hr"," hrs"],min:[" min"," mins"],sec:[" sec"," secs"],msec:[" msec"," msecs"]},verbose:{yr:[" year"," years"],mo:[" month"," months"],day:[" day"," days"],hr:[" hour"," hours"],min:[" minute"," minutes"],sec:[" second"," seconds"],msec:[" millisecond"," milliseconds"]},bangla:{yr:[" বছর"," বছর"],mo:[" মাস"," মাস"],day:[" দিন"," দিন"],hr:[" ঘণ্টা"," ঘণ্টা"],min:[" মিনিট"," মিনিট"],sec:[" সেকেন্ড"," সেকেন্ড"],msec:[" মিলিসেকেন্ড"," মিলিসেকেন্ড"]}},w=(e,t,s)=>M[e]>=M[s],A={decimal:0,maxClause:1,clauseJoin:" ",lastBlankClause:!1,trimBlankClause:!1,variant:"verbose",formats:{},prefix:"",postfix:"",clauses:["yr","day","hr","min","sec"]};function x(e,t,s){const{gapms:n,opts:r}=((e,t)=>{const s=Math.abs((new Date).getTime()-e.getTime()),n={...A,...t||{}};return n.clauses=(e=>{const t=[];return e.includes("yr")&&t.push("yr"),e.includes("mo")&&t.push("mo"),e.includes("day")&&t.push("day"),e.includes("hr")&&t.push("hr"),e.includes("min")&&t.push("min"),e.includes("sec")&&t.push("sec"),e.includes("msec")&&t.push("msec"),t})(n.clauses),{gapms:s,opts:n}})(t,s);let i=n;("AGO"===e&&g(t)||"REMAIN"===e&&f(t))&&(i=0);const a=((e,t)=>{const{decimal:s,lastBlankClause:n,trimBlankClause:r}=t;let i=e;const a=i[i.length-1];return a.number=parseFloat(a.number.toFixed(s)),function e(){if(i.length<=1)return;const t=i[i.length-1],s=i[i.length-2];let n=M[s.clause]/M[t.clause];"mo"===t.clause&&(n=Math.floor(n)),t.number<n||(s.number++,i.pop(),e())}(),n||function e(){i[i.length-1].number||(i.pop(),e())}(),r&&(i=i.filter((e=>e.number))),i})(S(i,r.clauses,r.maxClause),r);return((e,t)=>{const{prefix:s,clauseJoin:n,postfix:r}=t,i=k(t);return`${s}${e.map((e=>{let{number:t,clause:s}=e;return`${t}${i[s][t<=1?0:1]}`})).join(n)}${r}`})(a,r)}const F=function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"day";const s=new Date(e);return w(t,0,"yr")&&s.setMonth(0),w(t,0,"mo")&&s.setDate(1),w(t,0,"day")&&s.setHours(0),w(t,0,"hr")&&s.setMinutes(0),w(t,0,"min")&&s.setSeconds(0),s.setMilliseconds(0),new Date(s)};exports.time=e=>{let t=e?new Date(e):new Date;return isNaN(t.getTime())&&(t=new Date),{getDate:()=>t,format:(e,s)=>p(t,e,s),gap:e=>x("GAP",t,e),ago:e=>x("AGO",t,e),remain:e=>x("REMAIN",t,e),shift:(e,s)=>function(e,t){let s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"day";const n=e.getTime()+t*M[s];return new Date(n)}(t,e,s),round:e=>F(t,e),isToday:()=>(e=>F(e).getTime()===F(new Date).getTime())(t),isPast:()=>f(t),isFuture:()=>g(t)}};
+'use strict';
+
+var tnNumpad = require('tn-numpad');
+var tnValidate = require('tn-validate');
+const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
+const twins = 'd|D|m|M|h|H|i|s|S'.split('|');
+const timeFormatArr = formatstr => {
+  const formatarr = [];
+  let isplain = false;
+  let plaintext = '';
+  let twinable = false;
+  formatstr.split('').forEach(char => {
+    // plaintext collector
+    if (char === '{') {
+      isplain = true;
+      return;
+    }
+    if (char === '}') {
+      formatarr.push({
+        iskey: false,
+        char: plaintext
+      });
+      plaintext = '';
+      isplain = false;
+      return;
+    }
+    if (isplain) {
+      plaintext += char;
+      return;
+    }
+    // key collector
+    if (twinable) {
+      if (chars.includes(char) && char === twinable) {
+        formatarr.push({
+          iskey: true,
+          char: char + char
+        });
+      } else if (chars.includes(char)) {
+        formatarr.push({
+          iskey: true,
+          char: twinable
+        });
+        formatarr.push({
+          iskey: true,
+          char
+        });
+      } else {
+        formatarr.push({
+          iskey: true,
+          char: twinable
+        });
+        formatarr.push({
+          iskey: false,
+          char
+        });
+      }
+    } else {
+      if (twins.includes(char)) {
+        twinable = char;
+        return;
+      } else if (chars.includes(char)) {
+        formatarr.push({
+          iskey: true,
+          char
+        });
+      } else {
+        formatarr.push({
+          iskey: false,
+          char
+        });
+      }
+    }
+    twinable = false;
+  });
+  if (twinable) {
+    formatarr.push({
+      iskey: true,
+      char: twinable
+    });
+  }
+  return formatarr;
+};
+const tfcAmPm = function (dateobj) {
+  let capital = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  const hours = dateobj.getHours();
+  let ampm = 'am';
+  if (hours >= 12) ampm = 'pm';
+  if (capital) ampm = ampm.toUpperCase();
+  return ampm;
+};
+const tfcDateMinSecMs = function (dateobj, type) {
+  let zeropad = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  let dmsms;
+  if (type === 'date') dmsms = dateobj.getDate();else if (type === 'min') dmsms = dateobj.getMinutes();else if (type === 'sec') dmsms = dateobj.getSeconds();else dmsms = dateobj.getMilliseconds();
+  if (zeropad) {
+    const padcount = type === 'ms' ? 3 : 2;
+    dmsms = tnNumpad.numpad(dmsms, padcount);
+  }
+  return dmsms;
+};
+const short$1 = 'Sun|Mon|Tue|Wed|Thu|Fri|Sat'.split('|');
+const long$1 = 'Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday'.split('|');
+const tfcDayName = function (dateobj) {
+  let full = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  const dayno = dateobj.getDay();
+  if (full) return long$1[dayno];else return short$1[dayno];
+};
+const tfcHour = (dateobj, format24, zeropad) => {
+  let hours = dateobj.getHours();
+  if (!format24) {
+    if (hours > 12) hours = hours - 12;
+    if (hours === 0) hours = 12;
+  }
+  if (zeropad) hours = tnNumpad.numpad(hours, 2);
+  return hours;
+};
+const short = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'.split('|');
+const long = 'January|February|March|April|May|June|July|August|September|October|November|December'.split('|'); // prettier-ignore
+const tfcMonth = (dateobj, name, longer) => {
+  let monthno = dateobj.getMonth();
+  if (name) {
+    if (longer) return long[monthno];
+    return short[monthno];
+  }
+  ++monthno;
+  if (longer) return tnNumpad.numpad(monthno, 2);
+  return monthno;
+};
+const tfcYear = function (dateobj) {
+  let full = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  let fullyear = dateobj.getFullYear();
+  if (!full) fullyear = fullyear.toString().substr(2, 2);
+  return fullyear;
+};
+const timeFormatConverter = (dateobj, formatarr) => {
+  let string = '';
+  const convlist = converters(dateobj);
+  formatarr.forEach(charinfo => {
+    if (!charinfo.iskey) return string += charinfo.char;
+    string += convlist[charinfo.char]().toString();
+  });
+  return string;
+};
+const converters = date => ({
+  d: () => tfcDateMinSecMs(date, 'date'),
+  dd: () => tfcDateMinSecMs(date, 'date', true),
+  D: () => tfcDayName(date),
+  DD: () => tfcDayName(date, true),
+  m: () => tfcMonth(date, false, false),
+  mm: () => tfcMonth(date, false, true),
+  M: () => tfcMonth(date, true, false),
+  MM: () => tfcMonth(date, true, true),
+  y: () => tfcYear(date),
+  Y: () => tfcYear(date, true),
+  h: () => tfcHour(date, false, false),
+  hh: () => tfcHour(date, false, true),
+  H: () => tfcHour(date, true, false),
+  HH: () => tfcHour(date, true, true),
+  i: () => tfcDateMinSecMs(date, 'min'),
+  ii: () => tfcDateMinSecMs(date, 'min', true),
+  s: () => tfcDateMinSecMs(date, 'sec'),
+  ss: () => tfcDateMinSecMs(date, 'sec', true),
+  S: () => tfcDateMinSecMs(date, 'ms'),
+  SS: () => tfcDateMinSecMs(date, 'ms', true),
+  a: () => tfcAmPm(date),
+  A: () => tfcAmPm(date, true)
+});
+const timeFormat = function (date, format) {
+  let opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  const {
+    zone
+  } = opts;
+  let locale = date;
+  if (zone) {
+    locale = new Date(new Date(date).toLocaleString('en-US', {
+      timeZone: zone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    }));
+  }
+  const formatarr = timeFormatArr(format ?? 'dd-mm-Y');
+  return timeFormatConverter(locale, formatarr);
+};
+const timeIsFuture = date => {
+  return date.getTime() > new Date().getTime();
+};
+const timeIsPast = date => {
+  return date.getTime() < new Date().getTime();
+};
+const sec = 1000;
+const min = sec * 60;
+const hr = min * 60;
+const day = hr * 24;
+const mo = day * 30;
+const yr = day * 365;
+const clauseValue = {
+  msec: 1,
+  yr,
+  sec,
+  min,
+  hr,
+  day,
+  mo
+};
+const getCaluseAmount = (ms, clause) => ({
+  clause,
+  number: ms / clauseValue[clause]
+});
+const timeGapAmounts = function (ms, clauses, maxClause) {
+  let amounts = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+  let fixedClause = arguments.length > 4 ? arguments[4] : undefined;
+  const lastclause = clauses[clauses.length - 1] ?? 'yr';
+  let amount;
+  if (fixedClause) amount = getCaluseAmount(ms, fixedClause);else {
+    for (const clause of clauses) {
+      if (ms < clauseValue[clause] && lastclause !== clause) continue;
+      amount = getCaluseAmount(ms, clause);
+      break;
+    }
+  }
+  const clauseLen = amounts.length + 1;
+  if (clauseLen >= maxClause) {
+    amounts.push(amount);
+    return amounts;
+  } else {
+    const nextClause = clauses[clauses.findIndex(i => i === amount.clause) + 1];
+    if (!nextClause) {
+      amounts.push(amount);
+      return amounts;
+    } else {
+      const flatnumber = Math.floor(amount.number);
+      const ms = Math.round(clauseValue[amount.clause] * (amount.number - flatnumber));
+      amount.number = flatnumber;
+      amounts.push(amount);
+      return timeGapAmounts(ms, clauses, maxClause, amounts, nextClause);
+    }
+  }
+};
+const timeGapFormater = (amounts, opts) => {
+  const {
+    prefix,
+    clauseJoin,
+    postfix
+  } = opts;
+  const formats = getFormats(opts);
+  const timeclauses = amounts.map(_ref => {
+    let {
+      number,
+      clause
+    } = _ref;
+    return `${number}${formats[clause][number <= 1 ? 0 : 1]}`;
+  });
+  return `${prefix}${timeclauses.join(clauseJoin)}${postfix}`;
+};
+const getFormats = opts => {
+  const formats = defaultFormats[opts.variant];
+  Object.entries(opts.formats).forEach(_ref2 => {
+    let [key, value] = _ref2;
+    const input = value;
+    formats[key] = tnValidate.isArray(input) ? input : [input, input];
+  });
+  return formats;
+};
+const defaultFormats = {
+  minimal: {
+    yr: ['y', 'y'],
+    mo: ['mo', 'mo'],
+    day: ['d', 'd'],
+    hr: ['h', 'h'],
+    min: ['m', 'm'],
+    sec: ['s', 's'],
+    msec: ['ms', 'ms']
+  },
+  short: {
+    yr: [' yr', ' yrs'],
+    mo: [' mo', ' mos'],
+    day: [' day', ' days'],
+    hr: [' hr', ' hrs'],
+    min: [' min', ' mins'],
+    sec: [' sec', ' secs'],
+    msec: [' msec', ' msecs']
+  },
+  verbose: {
+    yr: [' year', ' years'],
+    mo: [' month', ' months'],
+    day: [' day', ' days'],
+    hr: [' hour', ' hours'],
+    min: [' minute', ' minutes'],
+    sec: [' second', ' seconds'],
+    msec: [' millisecond', ' milliseconds']
+  },
+  bangla: {
+    yr: [' বছর', ' বছর'],
+    mo: [' মাস', ' মাস'],
+    day: [' দিন', ' দিন'],
+    hr: [' ঘণ্টা', ' ঘণ্টা'],
+    min: [' মিনিট', ' মিনিট'],
+    sec: [' সেকেন্ড', ' সেকেন্ড'],
+    msec: [' মিলিসেকেন্ড', ' মিলিসেকেন্ড']
+  }
+};
+const timeGapLinter = (amounts, opts) => {
+  const {
+    decimal,
+    lastBlankClause,
+    trimBlankClause
+  } = opts;
+  let linted = amounts;
+  const last = linted[linted.length - 1];
+  last.number = parseFloat(last.number.toFixed(decimal));
+  stackup();
+  function stackup() {
+    if (linted.length <= 1) return;
+    const last = linted[linted.length - 1];
+    const last2nd = linted[linted.length - 2];
+    let maxnum = clauseValue[last2nd.clause] / clauseValue[last.clause];
+    if (last.clause === 'mo') maxnum = Math.floor(maxnum);
+    if (last.number < maxnum) return;
+    last2nd.number++;
+    linted.pop();
+    stackup();
+  }
+  if (!lastBlankClause) removeLastBlanks();
+  function removeLastBlanks() {
+    if (linted.length <= 1) return;
+    if (linted[linted.length - 1].number) return;
+    linted.pop();
+    removeLastBlanks();
+  }
+  if (trimBlankClause) linted = linted.filter((i, idx) => idx === 0 || i.number);
+  return linted;
+};
+const timeClauseSort = clauses => {
+  const sort = [];
+  if (clauses.includes('yr')) sort.push('yr');
+  if (clauses.includes('mo')) sort.push('mo');
+  if (clauses.includes('day')) sort.push('day');
+  if (clauses.includes('hr')) sort.push('hr');
+  if (clauses.includes('min')) sort.push('min');
+  if (clauses.includes('sec')) sort.push('sec');
+  if (clauses.includes('msec')) sort.push('msec');
+  return sort;
+};
+const timeClauseCompare = (clause1, compare, clause2) => {
+  const cv1 = clauseValue[clause1];
+  const cv2 = clauseValue[clause2];
+  return cv1 >= cv2;
+};
+const timeGapParameters = (date, useropts) => {
+  const gapms = Math.abs(new Date().getTime() - date.getTime());
+  const opts = {
+    ...defaultOpts,
+    ...(useropts || {})
+  };
+  opts.clauses = timeClauseSort(opts.clauses);
+  return {
+    gapms,
+    opts
+  };
+};
+const defaultOpts = {
+  decimal: 0,
+  maxClause: 1,
+  clauseJoin: ' ',
+  lastBlankClause: false,
+  trimBlankClause: false,
+  variant: 'verbose',
+  formats: {},
+  prefix: '',
+  postfix: '',
+  clauses: ['yr', 'day', 'hr', 'min', 'sec']
+};
+function timeGap(gaptype, date, useropts) {
+  const {
+    gapms,
+    opts
+  } = timeGapParameters(date, useropts);
+  let gap = gapms;
+  if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0;else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0;
+  const amounts = timeGapAmounts(gap, opts.clauses, opts.maxClause);
+  const linted = timeGapLinter(amounts, opts);
+  return timeGapFormater(linted, opts);
+}
+const timeRound = function (date) {
+  let roundby = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
+  const given = new Date(date);
+  if (timeClauseCompare(roundby, 'gte', 'yr')) given.setMonth(0);
+  if (timeClauseCompare(roundby, 'gte', 'mo')) given.setDate(1);
+  if (timeClauseCompare(roundby, 'gte', 'day')) given.setHours(0);
+  if (timeClauseCompare(roundby, 'gte', 'hr')) given.setMinutes(0);
+  if (timeClauseCompare(roundby, 'gte', 'min')) given.setSeconds(0);
+  given.setMilliseconds(0);
+  return new Date(given);
+};
+const timeIsToday = date => {
+  return timeRound(date).getTime() === timeRound(new Date()).getTime();
+};
+const timeShift = function (date, shiftby) {
+  let amount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'day';
+  const timestamp = date.getTime() + shiftby * clauseValue[amount];
+  return new Date(timestamp);
+};
+const time = d => {
+  let date = d ? new Date(d) : new Date();
+  const invalid = isNaN(date.getTime());
+  if (invalid) date = new Date();
+  return {
+    getDate: () => date,
+    format: (format, opts) => timeFormat(date, format, opts),
+    gap: opts => timeGap('GAP', date, opts),
+    ago: opts => timeGap('AGO', date, opts),
+    remain: opts => timeGap('REMAIN', date, opts),
+    shift: (shiftby, amount) => timeShift(date, shiftby, amount),
+    round: roundby => timeRound(date, roundby),
+    isToday: () => timeIsToday(date),
+    isPast: () => timeIsPast(date),
+    isFuture: () => timeIsFuture(date)
+  };
+};
+exports.time = time;
