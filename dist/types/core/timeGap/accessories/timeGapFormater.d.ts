@@ -1,4 +1,8 @@
 import { TimegapFormats, TimegapReadyOpts } from './TimeGap';
-type R = (number: number, decimal: number, key: keyof TimegapFormats) => string;
-export declare const timeGapFormater: (opts: TimegapReadyOpts) => R;
+type Props = {
+    number: number;
+    clause: keyof TimegapFormats;
+    opts: TimegapReadyOpts;
+};
+export declare const timeGapFormater: ({ number, clause, opts }: Props) => string;
 export {};

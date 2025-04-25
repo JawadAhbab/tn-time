@@ -257,17 +257,24 @@ const timeGapAmount = (gapms, opts) => {
     clause: 'msec'
   };
 };
-const timeGapFormater = opts => {
+const timeGapFormater = _ref => {
+  let {
+    number,
+    clause,
+    opts
+  } = _ref;
+  const formats = getFormats(opts);
+  const num = parseFloat(number.toFixed(opts.decimal));
+  return `${opts.prefix}${num}${formats[clause][num <= 1 ? 0 : 1]}${opts.postfix}`;
+};
+const getFormats = opts => {
   const formats = defaultFormats[opts.variant];
-  Object.entries(opts.formats).forEach(_ref => {
-    let [key, value] = _ref;
+  Object.entries(opts.formats).forEach(_ref2 => {
+    let [key, value] = _ref2;
     const input = value;
     formats[key] = isArray(input) ? input : [input, input];
   });
-  return (number, decimal, key) => {
-    const num = parseFloat(number.toFixed(decimal));
-    return `${opts.prefix}${num}${formats[key][num <= 1 ? 0 : 1]}${opts.postfix}`;
-  };
+  return formats;
 };
 const defaultFormats = {
   minimal: {
@@ -339,15 +346,14 @@ function timeGap(gaptype, date, useropts) {
   let gap = gapms;
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0;else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0;
   const {
-    clause: key,
-    number
+    number,
+    clause
   } = timeGapAmount(gap, opts);
-  console.log({
-    key,
-    number
+  return timeGapFormater({
+    opts,
+    number,
+    clause
   });
-  const formater = timeGapFormater(opts);
-  return formater(number, opts.decimal, key);
 }
 const timeRound = date => {
   const given = new Date(date);
