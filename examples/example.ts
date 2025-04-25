@@ -1,4 +1,4 @@
 import { time } from '../src/index'
 console.clear()
 
-console.log(time(time().shift(100.11, 'day')).gap({ maxClause: 3 }))
+console.log(time(time().shift(0.99999, 'yr')).gap({ maxClause: 2 }))
