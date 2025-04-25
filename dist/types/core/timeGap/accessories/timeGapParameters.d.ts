@@ -6,6 +6,8 @@ export declare const timeGapParameters: (date: Date, useropts?: TimegapOpts) => 
         maxClause: number;
         clauseJoin: string;
         clauses: import("../../../accessories/TimeClause").TimeClause[];
+        lastBlankClause: boolean;
+        trimBlankClause: boolean;
         variant: import("./TimeGap").TimegapVariant;
         formats: import("tn-typescript").Optional<import("./TimeGap").TimegapFormats>;
         prefix: string;

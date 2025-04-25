@@ -9,6 +9,8 @@ const defaultOpts: TimegapReadyOpts = {
   decimal: 0,
   maxClause: 1,
   clauseJoin: ' ',
+  lastBlankClause: false,
+  trimBlankClause: false,
   variant: 'verbose',
   formats: {},
   prefix: '',

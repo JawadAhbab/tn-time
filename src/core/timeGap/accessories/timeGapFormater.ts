@@ -7,14 +7,15 @@ type Props = { amounts: TimeGapAmount[]; opts: TimegapReadyOpts }
 export const timeGapFormater = ({ amounts, opts }: Props): string => {
   const formats = getFormats(opts)
   const astrs: string[] = []
-  console.log(amounts)
-  // const num = parseFloat(number.toFixed(opts.decimal))
-  // return `${opts.prefix}${num}${formats[clause][num <= 1 ? 0 : 1]}${opts.postfix}`
+
+  amounts.forEach(({ number, clause }, idx) => {
+    const num = parseFloat(number.toFixed(opts.decimal))
+    const str = `${num}${formats[clause][num <= 1 ? 0 : 1]}`
+    if (idx === 0 || (!opts.trimBlankClause && amounts.length - 1 !== idx) || num || (!opts.trimBlankClause && opts.lastBlankClause)) astrs.push(str)
+  })
 
   return `${opts.prefix}${astrs.join(opts.clauseJoin)}${opts.postfix}`
 }
-
-const parseAmountString = () => {}
 
 const getFormats = (opts: TimegapReadyOpts) => {
   const formats = defaultFormats[opts.variant]

@@ -255,17 +255,23 @@ const timeGapFormater = _ref => {
     amounts,
     opts
   } = _ref;
-  getFormats(opts);
+  const formats = getFormats(opts);
   const astrs = [];
-  console.log(amounts);
-  // const num = parseFloat(number.toFixed(opts.decimal))
-  // return `${opts.prefix}${num}${formats[clause][num <= 1 ? 0 : 1]}${opts.postfix}`
+  amounts.forEach((_ref2, idx) => {
+    let {
+      number,
+      clause
+    } = _ref2;
+    const num = parseFloat(number.toFixed(opts.decimal));
+    const str = `${num}${formats[clause][num <= 1 ? 0 : 1]}`;
+    if (idx === 0 || !opts.trimBlankClause && amounts.length - 1 !== idx || num || !opts.trimBlankClause && opts.lastBlankClause) astrs.push(str);
+  });
   return `${opts.prefix}${astrs.join(opts.clauseJoin)}${opts.postfix}`;
 };
 const getFormats = opts => {
   const formats = defaultFormats[opts.variant];
-  Object.entries(opts.formats).forEach(_ref2 => {
-    let [key, value] = _ref2;
+  Object.entries(opts.formats).forEach(_ref3 => {
+    let [key, value] = _ref3;
     const input = value;
     formats[key] = isArray(input) ? input : [input, input];
   });
@@ -323,6 +329,8 @@ const defaultOpts = {
   decimal: 0,
   maxClause: 1,
   clauseJoin: ' ',
+  lastBlankClause: false,
+  trimBlankClause: false,
   variant: 'verbose',
   formats: {},
   prefix: '',

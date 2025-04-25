@@ -10,6 +10,8 @@ export interface TimegapOpts {
   maxClause?: number
   clauseJoin?: string
   clauses?: TimeClause[]
+  lastBlankClause?: boolean
+  trimBlankClause?: boolean
   variant?: TimegapVariant
   formats?: Optional<TimegapFormats>
   prefix?: string
