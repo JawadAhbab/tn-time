@@ -6,11 +6,10 @@ export type TimeGapAmount = { number: number; clause: keyof TimegapFormats }
 export const timeGapAmounts = (
   ms: number,
   clauses: TimeClause[],
+  maxClause: number,
   amounts: TimeGapAmount[] = [],
-  currClauseCount = 0,
   fixedClause?: TimeClause
 ): TimeGapAmount[] => {
-  ++currClauseCount
   const lastclause = clauses[clauses.length - 1] ?? 'yr'
 
   let amount!: TimeGapAmount
@@ -20,8 +19,13 @@ export const timeGapAmounts = (
     break
   }
 
-  amounts.push(amount)
-  return amounts
+  const clauseLen = amounts.length + 1
+  if (clauseLen >= maxClause) {
+    amounts.push(amount)
+    return amounts
+  } else {
+    return amounts
+  }
 }
 
 const getCaluseAmount = (ms: number, clause: TimeClause): TimeGapAmount => {
