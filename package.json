@@ -7,7 +7,7 @@
   "module": "dist/index.esm.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "Serve": "nodemon --exec \"ts-node --transpile-only\" --require @swc-node/register ./examples/index.example.ts",
+    "Serve": "nodemon --exec \"ts-node --transpile-only\" --require @swc-node/register ./examples/example.ts",
     "Build": "rimraf dist && rollup -c",
     "Publish": "yarn Build && yarn publish"
   },

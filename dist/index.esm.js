@@ -184,6 +184,21 @@ const timeFormat = function (date, format) {
   const formatarr = timeFormatArr(format ?? 'dd-mm-Y');
   return timeFormatConverter(locale, formatarr);
 };
+const sec = 1000;
+const min = sec * 60;
+const hr = min * 60;
+const day = hr * 24;
+const mo = day * 30;
+const yr = day * 365;
+const clauseValue = {
+  msec: 1,
+  yr,
+  sec,
+  min,
+  hr,
+  day,
+  mo
+};
 const timeClauseSort = clauses => {
   const sort = [];
   if (clauses.includes('yr')) sort.push('yr');
@@ -200,21 +215,6 @@ const timeIsFuture = date => {
 };
 const timeIsPast = date => {
   return date.getTime() < new Date().getTime();
-};
-const sec = 1000;
-const min = sec * 60;
-const hr = min * 60;
-const day = hr * 24;
-const mo = day * 30;
-const yr = day * 365;
-const clauseValue = {
-  msec: 1,
-  yr,
-  sec,
-  min,
-  hr,
-  day,
-  mo
 };
 const getCaluseAmount = (ms, clause) => ({
   clause,
@@ -358,9 +358,14 @@ function timeGap(gaptype, date, useropts) {
     amounts
   });
 }
-const timeRound = date => {
+const timeRound = function (date) {
+  let peg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'msec';
   const given = new Date(date);
-  return new Date(given.setHours(0, 0, 0, 0));
+  // given.setDate(1)
+  // given.setMonth(0)
+  // given.setHours(0, 0, 0, 0)
+  given.setMilliseconds(0);
+  return new Date(given);
 };
 const timeIsToday = date => {
   return timeRound(date).getTime() === timeRound(new Date()).getTime();
