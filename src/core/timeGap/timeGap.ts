@@ -12,7 +12,7 @@ export function timeGap(gaptype: GapType, date: Date, useropts?: TimegapOpts) {
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0
   else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0
 
-  const { key, number } = timeGapAmount(gap, opts)
+  const { clause: key, number } = timeGapAmount(gap, opts)
   console.log({ key, number })
   const formater = timeGapFormater(opts)
   return formater(number, opts.decimal, key)

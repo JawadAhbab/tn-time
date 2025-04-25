@@ -1,8 +1,8 @@
 import { conv } from '../../../accessories/conv'
 import { TimegapFormats, TimegapReadyOpts } from './TimeGap'
-type R = { number: number; key: keyof TimegapFormats }
+type R = { number: number; clause: keyof TimegapFormats }
 
-export const timeGapAmount = (agoms: number, opts: TimegapReadyOpts): R => {
+export const timeGapAmount = (gapms: number, opts: TimegapReadyOpts): R => {
   const { yr, mo, day, hr, min, sec, msec } = opts
 
   let lastkey: keyof TimegapFormats = 'yr'
@@ -13,17 +13,17 @@ export const timeGapAmount = (agoms: number, opts: TimegapReadyOpts): R => {
   if (sec) lastkey = 'sec'
   if (msec) lastkey = 'msec'
 
-  if ((agoms >= conv.yr && yr) || lastkey === 'yr') {
-    return { number: agoms / conv.yr, key: 'yr' }
-  } else if ((agoms >= conv.mo && mo) || lastkey === 'mo') {
-    return { number: agoms / conv.mo, key: 'mo' }
-  } else if ((agoms >= conv.day && day) || lastkey === 'day') {
-    return { number: agoms / conv.day, key: 'day' }
-  } else if ((agoms >= conv.hr && hr) || lastkey === 'hr') {
-    return { number: agoms / conv.hr, key: 'hr' }
-  } else if ((agoms >= conv.min && min) || lastkey === 'min') {
-    return { number: agoms / conv.min, key: 'min' }
-  } else if ((agoms >= conv.sec && sec) || lastkey === 'sec') {
-    return { number: agoms / conv.sec, key: 'sec' }
-  } else return { number: agoms, key: 'msec' }
+  if ((gapms >= conv.yr && yr) || lastkey === 'yr') {
+    return { number: gapms / conv.yr, clause: 'yr' }
+  } else if ((gapms >= conv.mo && mo) || lastkey === 'mo') {
+    return { number: gapms / conv.mo, clause: 'mo' }
+  } else if ((gapms >= conv.day && day) || lastkey === 'day') {
+    return { number: gapms / conv.day, clause: 'day' }
+  } else if ((gapms >= conv.hr && hr) || lastkey === 'hr') {
+    return { number: gapms / conv.hr, clause: 'hr' }
+  } else if ((gapms >= conv.min && min) || lastkey === 'min') {
+    return { number: gapms / conv.min, clause: 'min' }
+  } else if ((gapms >= conv.sec && sec) || lastkey === 'sec') {
+    return { number: gapms / conv.sec, clause: 'sec' }
+  } else return { number: gapms, clause: 'msec' }
 }

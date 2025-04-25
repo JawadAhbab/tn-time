@@ -205,7 +205,7 @@ const conv = {
   day,
   mo
 };
-const timeGapAmount = (agoms, opts) => {
+const timeGapAmount = (gapms, opts) => {
   const {
     yr,
     mo,
@@ -222,39 +222,39 @@ const timeGapAmount = (agoms, opts) => {
   if (min) lastkey = 'min';
   if (sec) lastkey = 'sec';
   if (msec) lastkey = 'msec';
-  if (agoms >= conv.yr && yr || lastkey === 'yr') {
+  if (gapms >= conv.yr && yr || lastkey === 'yr') {
     return {
-      number: agoms / conv.yr,
-      key: 'yr'
+      number: gapms / conv.yr,
+      clause: 'yr'
     };
-  } else if (agoms >= conv.mo && mo || lastkey === 'mo') {
+  } else if (gapms >= conv.mo && mo || lastkey === 'mo') {
     return {
-      number: agoms / conv.mo,
-      key: 'mo'
+      number: gapms / conv.mo,
+      clause: 'mo'
     };
-  } else if (agoms >= conv.day && day || lastkey === 'day') {
+  } else if (gapms >= conv.day && day || lastkey === 'day') {
     return {
-      number: agoms / conv.day,
-      key: 'day'
+      number: gapms / conv.day,
+      clause: 'day'
     };
-  } else if (agoms >= conv.hr && hr || lastkey === 'hr') {
+  } else if (gapms >= conv.hr && hr || lastkey === 'hr') {
     return {
-      number: agoms / conv.hr,
-      key: 'hr'
+      number: gapms / conv.hr,
+      clause: 'hr'
     };
-  } else if (agoms >= conv.min && min || lastkey === 'min') {
+  } else if (gapms >= conv.min && min || lastkey === 'min') {
     return {
-      number: agoms / conv.min,
-      key: 'min'
+      number: gapms / conv.min,
+      clause: 'min'
     };
-  } else if (agoms >= conv.sec && sec || lastkey === 'sec') {
+  } else if (gapms >= conv.sec && sec || lastkey === 'sec') {
     return {
-      number: agoms / conv.sec,
-      key: 'sec'
+      number: gapms / conv.sec,
+      clause: 'sec'
     };
   } else return {
-    number: agoms,
-    key: 'msec'
+    number: gapms,
+    clause: 'msec'
   };
 };
 const timeGapFormater = opts => {
@@ -339,7 +339,7 @@ function timeGap(gaptype, date, useropts) {
   let gap = gapms;
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0;else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0;
   const {
-    key,
+    clause: key,
     number
   } = timeGapAmount(gap, opts);
   console.log({

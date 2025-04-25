@@ -1,7 +1,7 @@
 import { TimegapFormats, TimegapReadyOpts } from './TimeGap';
 type R = {
     number: number;
-    key: keyof TimegapFormats;
+    clause: keyof TimegapFormats;
 };
-export declare const timeGapAmount: (agoms: number, opts: TimegapReadyOpts) => R;
+export declare const timeGapAmount: (gapms: number, opts: TimegapReadyOpts) => R;
 export {};
