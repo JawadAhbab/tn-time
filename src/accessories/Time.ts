@@ -5,6 +5,7 @@ import { TimeRoundBy } from '../core/timeRound'
 
 export type Time = (d?: string | number | Date) => {
   getDate(): Date
+  gapMs(): number
   gap(opts?: TimegapOpts): string
   ago(opts?: TimegapOpts): string
   remain(opts?: TimegapOpts): string

@@ -183,6 +183,9 @@ const timeFormat = function (date, format) {
   const formatarr = timeFormatArr(format ?? 'dd-mm-Y');
   return timeFormatConverter(locale, formatarr);
 };
+const timeGapMs = date => {
+  return Math.abs(new Date().getTime() - date.getTime());
+};
 const timeIsFuture = date => {
   return date.getTime() > new Date().getTime();
 };
@@ -349,7 +352,7 @@ const timeClauseCompare = (clause1, compare, clause2) => {
   return cv1 >= cv2;
 };
 const timeGapParameters = (date, useropts) => {
-  const gapms = Math.abs(new Date().getTime() - date.getTime());
+  const gapms = timeGapMs(date);
   const opts = {
     ...defaultOpts,
     ...(useropts || {})
@@ -409,6 +412,7 @@ const time = d => {
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),
+    gapMs: () => timeGapMs(date),
     gap: opts => timeGap('GAP', date, opts),
     ago: opts => timeGap('AGO', date, opts),
     remain: opts => timeGap('REMAIN', date, opts),

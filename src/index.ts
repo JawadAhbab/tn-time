@@ -1,5 +1,6 @@
 import { Time } from './accessories/Time'
 import { timeFormat } from './core/timeFormat/timeFormat'
+import { timeGapMs } from './core/timeGap/accessories/timeGapMs'
 import { timeGap } from './core/timeGap/timeGap'
 import { timeIsFuture } from './core/timeIsFuture'
 import { timeIsPast } from './core/timeIsPast'
@@ -14,6 +15,7 @@ export const time: Time = d => {
   return {
     getDate: () => date,
     format: (format, opts) => timeFormat(date, format, opts),
+    gapMs: () => timeGapMs(date),
     gap: opts => timeGap('GAP', date, opts),
     ago: opts => timeGap('AGO', date, opts),
     remain: opts => timeGap('REMAIN', date, opts),

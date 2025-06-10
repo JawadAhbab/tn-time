@@ -1,8 +1,9 @@
 import { timeClauseSort } from '../../../accessories/TimeClause'
 import { TimegapOpts, TimegapReadyOpts } from './TimeGap'
+import { timeGapMs } from './timeGapMs'
 
 export const timeGapParameters = (date: Date, useropts?: TimegapOpts) => {
-  const gapms = Math.abs(new Date().getTime() - date.getTime())
+  const gapms = timeGapMs(date)
   const opts = { ...defaultOpts, ...(useropts || {}) }
   opts.clauses = timeClauseSort(opts.clauses)
   return { gapms, opts }
