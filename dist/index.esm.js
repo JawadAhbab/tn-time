@@ -254,7 +254,8 @@ const timeGapFormater = (amounts, opts) => {
       number,
       clause
     } = _ref;
-    return `${number}${formats[clause][number <= 1 ? 0 : 1]}`;
+    const format = formats[clause];
+    return `${number}${format[number <= 1 ? 0 : 1]}`;
   });
   return `${prefix}${timeclauses.join(clauseJoin)}${postfix}`;
 };
@@ -269,6 +270,7 @@ const getFormats = opts => {
 };
 const defaultFormats = {
   minimal: {
+    num: num => num,
     yr: ['y', 'y'],
     mo: ['mo', 'mo'],
     day: ['d', 'd'],
@@ -278,6 +280,7 @@ const defaultFormats = {
     msec: ['ms', 'ms']
   },
   short: {
+    num: num => num,
     yr: [' yr', ' yrs'],
     mo: [' mo', ' mos'],
     day: [' day', ' days'],
@@ -287,6 +290,7 @@ const defaultFormats = {
     msec: [' msec', ' msecs']
   },
   verbose: {
+    num: num => num,
     yr: [' year', ' years'],
     mo: [' month', ' months'],
     day: [' day', ' days'],
@@ -296,6 +300,7 @@ const defaultFormats = {
     msec: [' millisecond', ' milliseconds']
   },
   bangla: {
+    num: num => num,
     yr: [' বছর', ' বছর'],
     mo: [' মাস', ' মাস'],
     day: [' দিন', ' দিন'],

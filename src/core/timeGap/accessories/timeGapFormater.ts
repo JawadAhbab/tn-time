@@ -2,11 +2,16 @@ import { ObjectInUnion } from 'tn-typescript'
 import { isArray } from 'tn-validate'
 import { TimegapFormatInput, TimegapFormats, TimegapReadyFormats, TimegapReadyOpts, TimegapVariant } from './TimeGap'; // prettier-ignore
 import { TimeGapAmount } from './timeGapAmounts'
+type NumFormat = { num(num: number): number }
+type Formats = ObjectInUnion<TimegapVariant, TimegapReadyFormats & NumFormat>
 
 export const timeGapFormater = (amounts: TimeGapAmount[], opts: TimegapReadyOpts): string => {
   const { prefix, clauseJoin, postfix } = opts
   const formats = getFormats(opts)
-  const timeclauses = amounts.map(({ number, clause }) => `${number}${formats[clause][number <= 1 ? 0 : 1]}`)
+  const timeclauses = amounts.map(({ number, clause }) => {
+    const format = formats[clause]
+    return `${number}${format[number <= 1 ? 0 : 1]}`
+  })
   return `${prefix}${timeclauses.join(clauseJoin)}${postfix}`
 }
 
@@ -19,8 +24,9 @@ const getFormats = (opts: TimegapReadyOpts) => {
   return formats
 }
 
-const defaultFormats: ObjectInUnion<TimegapVariant, TimegapReadyFormats> = {
+const defaultFormats: Formats = {
   minimal: {
+    num: num => num,
     yr: ['y', 'y'],
     mo: ['mo', 'mo'],
     day: ['d', 'd'],
@@ -30,6 +36,7 @@ const defaultFormats: ObjectInUnion<TimegapVariant, TimegapReadyFormats> = {
     msec: ['ms', 'ms'],
   },
   short: {
+    num: num => num,
     yr: [' yr', ' yrs'],
     mo: [' mo', ' mos'],
     day: [' day', ' days'],
@@ -39,6 +46,7 @@ const defaultFormats: ObjectInUnion<TimegapVariant, TimegapReadyFormats> = {
     msec: [' msec', ' msecs'],
   },
   verbose: {
+    num: num => num,
     yr: [' year', ' years'],
     mo: [' month', ' months'],
     day: [' day', ' days'],
@@ -48,6 +56,7 @@ const defaultFormats: ObjectInUnion<TimegapVariant, TimegapReadyFormats> = {
     msec: [' millisecond', ' milliseconds'],
   },
   bangla: {
+    num: num => num,
     yr: [' বছর', ' বছর'],
     mo: [' মাস', ' মাস'],
     day: [' দিন', ' দিন'],
