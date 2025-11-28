@@ -2,13 +2,15 @@ import { TimegapOpts } from '../core/timeGap/accessories/TimeGap'
 import { TimeFormatOpts } from '../core/timeFormat/accessories/TimeFormat'
 import { TimeClause } from './TimeClause'
 import { TimeRoundBy } from '../core/timeRound'
+type Dt = string | number | Date
 
-export type Time = (d?: string | number | Date) => {
+export type Time = (d?: Dt) => {
   getDate(): Date
   gapMs(): number
   gap(opts?: TimegapOpts): string
   ago(opts?: TimegapOpts): string
   remain(opts?: TimegapOpts): string
+  gapBtw(date: Dt, opts?: TimegapOpts): string
   shift(shiftby: number, amount?: TimeClause): Date
   round(roundby?: TimeRoundBy): Date
   isToday(): boolean

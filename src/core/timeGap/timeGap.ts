@@ -8,7 +8,7 @@ import { timeGapParameters } from './accessories/timeGapParameters'
 type GapType = 'GAP' | 'AGO' | 'REMAIN'
 
 export function timeGap(gaptype: GapType, date: Date, useropts?: TimegapOpts) {
-  const { gapms, opts } = timeGapParameters(date, useropts)
+  const { gapms, opts } = timeGapParameters({ date, useropts })
   let gap = gapms
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0
   else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0
