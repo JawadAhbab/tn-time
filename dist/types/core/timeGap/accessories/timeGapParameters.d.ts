@@ -1,5 +1,10 @@
 import { TimegapOpts } from './TimeGap';
-export declare const timeGapParameters: (date: Date, useropts?: TimegapOpts) => {
+type Props = {
+    date: Date;
+    date2?: Date;
+    useropts?: TimegapOpts;
+};
+export declare const timeGapParameters: ({ date, date2, useropts }: Props) => {
     gapms: number;
     opts: {
         decimal: number;
@@ -14,3 +19,4 @@ export declare const timeGapParameters: (date: Date, useropts?: TimegapOpts) => 
         postfix: string;
     };
 };
+export {};

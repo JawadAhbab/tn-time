@@ -185,8 +185,9 @@ const timeFormat = function (date, format) {
   const formatarr = timeFormatArr(format ?? 'dd-mm-Y');
   return timeFormatConverter(locale, formatarr);
 };
-const timeGapMs = date => {
-  return Math.abs(new Date().getTime() - date.getTime());
+const timeGapMs = function (date) {
+  let date2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Date();
+  return Math.abs(date2.getTime() - date.getTime());
 };
 const timeIsFuture = date => {
   return date.getTime() > new Date().getTime();
@@ -353,8 +354,13 @@ const timeClauseCompare = (clause1, compare, clause2) => {
   const cv2 = clauseValue[clause2];
   return cv1 >= cv2;
 };
-const timeGapParameters = (date, useropts) => {
-  const gapms = timeGapMs(date);
+const timeGapParameters = _ref3 => {
+  let {
+    date,
+    date2,
+    useropts
+  } = _ref3;
+  const gapms = timeGapMs(date, date2);
   const opts = {
     ...defaultOpts,
     ...(useropts || {})
@@ -381,13 +387,29 @@ function timeGap(gaptype, date, useropts) {
   const {
     gapms,
     opts
-  } = timeGapParameters(date, useropts);
+  } = timeGapParameters({
+    date,
+    useropts
+  });
   let gap = gapms;
   if (gaptype === 'AGO' && timeIsFuture(date)) gap = 0;else if (gaptype === 'REMAIN' && timeIsPast(date)) gap = 0;
   const amounts = timeGapAmounts(gap, opts.clauses, opts.maxClause);
   const linted = timeGapLinter(amounts, opts);
   return timeGapFormater(linted, opts);
 }
+const timeGapBtw = (date, date2, useropts) => {
+  const {
+    gapms,
+    opts
+  } = timeGapParameters({
+    date,
+    date2,
+    useropts
+  });
+  const amounts = timeGapAmounts(gapms, opts.clauses, opts.maxClause);
+  const linted = timeGapLinter(amounts, opts);
+  return timeGapFormater(linted, opts);
+};
 const timeRound = function (date) {
   let roundby = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'day';
   const given = new Date(date);
@@ -418,6 +440,7 @@ const time = d => {
     gap: opts => timeGap('GAP', date, opts),
     ago: opts => timeGap('AGO', date, opts),
     remain: opts => timeGap('REMAIN', date, opts),
+    gapBtw: (date2, opts) => timeGapBtw(date, time(date2).getDate(), opts),
     shift: (shiftby, amount) => timeShift(date, shiftby, amount),
     round: roundby => timeRound(date, roundby),
     isToday: () => timeIsToday(date),
