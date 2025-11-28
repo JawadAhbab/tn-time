@@ -257,8 +257,7 @@ const timeGapFormater = (amounts, opts) => {
       number,
       clause
     } = _ref;
-    const format = formats[clause];
-    return `${number}${format[number <= 1 ? 0 : 1]}`;
+    return `${formats.num(number)}${formats[clause][number <= 1 ? 0 : 1]}`;
   });
   return `${prefix}${timeclauses.join(clauseJoin)}${postfix}`;
 };

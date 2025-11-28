@@ -9,10 +9,7 @@ type Formats = ObjectInUnion<TimegapVariant, TimegapReadyFormats & NumFormat>
 export const timeGapFormater = (amounts: TimeGapAmount[], opts: TimegapReadyOpts): string => {
   const { prefix, clauseJoin, postfix } = opts
   const formats = getFormats(opts)
-  const timeclauses = amounts.map(({ number, clause }) => {
-    const format = formats[clause]
-    return `${number}${format[number <= 1 ? 0 : 1]}`
-  })
+  const timeclauses = amounts.map(({ number, clause }) => `${formats.num(number)}${formats[clause][number <= 1 ? 0 : 1]}`)
   return `${prefix}${timeclauses.join(clauseJoin)}${postfix}`
 }
 
