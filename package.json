@@ -8,8 +8,7 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "Serve": "nodemon --exec \"ts-node --transpile-only\" --require @swc-node/register ./examples/example.ts",
-    "Build": "rimraf dist && rollup -c",
-    "Publish": "yarn Build && yarn publish"
+    "Build": "rimraf dist && rollup -c"
   },
   "repository": {
     "type": "git",
