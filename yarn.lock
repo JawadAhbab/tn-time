@@ -3474,6 +3474,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tn-accessories@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "tn-accessories@npm:1.2.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.28.4"
+    tn-typescript: "npm:^2.1.5"
+  checksum: 10c0/a178bd6cf79a446d5292b3e9bf84b98564354266d9c412899f20da8724ea9f26cd07b7e28177959ebac3623e40b800d50a296bf20f559be456990d1c97a5e2d2
+  languageName: node
+  linkType: hard
+
 "tn-capitalize@npm:^1.1.3":
   version: 1.1.3
   resolution: "tn-capitalize@npm:1.1.3"
@@ -3537,6 +3547,7 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     rollup: "npm:^4.53.3"
     rollup-plugin-typescript2: "npm:^0.36.0"
+    tn-accessories: "npm:^1.2.0"
     tn-consoler: "npm:^2.2.0"
     tn-mergeobj: "npm:^2.0.0"
     tn-numpad: "npm:^2.1.2"

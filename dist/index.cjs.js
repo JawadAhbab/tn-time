@@ -2,6 +2,7 @@
 
 var tnNumpad = require('tn-numpad');
 var tnValidate = require('tn-validate');
+var tnAccessories = require('tn-accessories');
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 const twins = 'd|D|m|M|h|H|i|s|S'.split('|');
 const timeFormatArr = formatstr => {
@@ -302,7 +303,7 @@ const defaultFormats = {
     msec: [' millisecond', ' milliseconds']
   },
   bangla: {
-    num: num => num,
+    num: num => tnAccessories.numBn(num),
     yr: [' বছর', ' বছর'],
     mo: [' মাস', ' মাস'],
     day: [' দিন', ' দিন'],

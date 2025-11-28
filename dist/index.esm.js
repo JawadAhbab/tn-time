@@ -1,5 +1,6 @@
 import { numpad } from 'tn-numpad';
 import { isArray } from 'tn-validate';
+import { numBn } from 'tn-accessories';
 const chars = 'd|D|m|M|y|Y|h|H|i|s|S|a|A'.split('|');
 const twins = 'd|D|m|M|h|H|i|s|S'.split('|');
 const timeFormatArr = formatstr => {
@@ -300,7 +301,7 @@ const defaultFormats = {
     msec: [' millisecond', ' milliseconds']
   },
   bangla: {
-    num: num => num,
+    num: num => numBn(num),
     yr: [' বছর', ' বছর'],
     mo: [' মাস', ' মাস'],
     day: [' দিন', ' দিন'],

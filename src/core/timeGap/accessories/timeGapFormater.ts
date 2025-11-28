@@ -2,7 +2,8 @@ import { ObjectInUnion } from 'tn-typescript'
 import { isArray } from 'tn-validate'
 import { TimegapFormatInput, TimegapFormats, TimegapReadyFormats, TimegapReadyOpts, TimegapVariant } from './TimeGap'; // prettier-ignore
 import { TimeGapAmount } from './timeGapAmounts'
-type NumFormat = { num(num: number): number }
+import { numBn } from 'tn-accessories'
+type NumFormat = { num(num: number): number | string }
 type Formats = ObjectInUnion<TimegapVariant, TimegapReadyFormats & NumFormat>
 
 export const timeGapFormater = (amounts: TimeGapAmount[], opts: TimegapReadyOpts): string => {
@@ -56,7 +57,7 @@ const defaultFormats: Formats = {
     msec: [' millisecond', ' milliseconds'],
   },
   bangla: {
-    num: num => num,
+    num: num => numBn(num),
     yr: [' বছর', ' বছর'],
     mo: [' মাস', ' মাস'],
     day: [' দিন', ' দিন'],
